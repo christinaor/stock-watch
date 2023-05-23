@@ -1,35 +1,55 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import * as React from 'react';
+import Header from './components/Header';
+import Login from './components/Login';
+import './style.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
+  const [isOpen, setIsOpen] = React.useState(false);
+  function toggleNewFolio() {
+    setIsOpen(!isOpen);
+  }
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <div>
+      <Header />
+      <main>
+        <div>
+          <button onClick={toggleNewFolio}>
+            <b>+</b> new portfolio
+          </button>
+          {isOpen && (
+            <form>
+              <section>
+                <label>
+                  Starting date:
+                  <input type="date" />
+                </label>
+              </section>
+              <section>
+                <label>
+                  Initial investment:
+                  <input type="number" />
+                </label>
+              </section>
+              <section>
+                <label>
+                  Allocation:
+                  <input type="text" />
+                </label>
+              </section>
+              <section>
+                <button>Submit</button>
+              </section>
+            </form>
+          )}
+        </div>
+        <div>
+          <h2>Current portfolios:</h2>
+        </div>
+        <div>
+          <h2>Graph area</h2>
+        </div>
+        <Login />
+      </main>
+    </div>
+  );
 }
-
-export default App
