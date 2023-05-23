@@ -1,17 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function Login() {
-  const [isLoggingIn, setIsLoggingIn] = React.useState(true);
-  const [isRegistering, setIsRegistering] = React.useState(false);
+  const [isLoggingIn, setIsLoggingIn] = useState(true);
+  const [isRegistering, setIsRegistering] = useState(false);
 
-  const container = {
-    border: 'solid black 3px',
+  const styles = {
+    container: { border: 'solid black 3px' },
+    disabled: { 'background-color': '#A8A8A8' },
+    btn: { border: 'solid black 3px' },
   };
+
   return (
     <div>
-      <div style={container}>
-        <button>Login</button>
-        <button>Register</button>
+      <div style={styles.container}>
+        <button
+          onClick={() => {
+            setIsLoggingIn(true);
+            setIsRegistering(false);
+          }}
+          style={isLoggingIn ? styles.disabled : styles.btn}
+        >
+          Login
+        </button>
+        <button
+          onClick={() => {
+            setIsLoggingIn(false);
+            setIsRegistering(true);
+          }}
+          style={isRegistering ? styles.disabled : styles.btn}
+        >
+          Register
+        </button>
         {isLoggingIn && (
           <div>
             <div>
@@ -23,6 +42,26 @@ export default function Login() {
               <label>
                 Password: <input type="text" />
               </label>
+            </div>
+            <div>
+              <button>Submit</button>
+            </div>
+          </div>
+        )}
+        {isRegistering && (
+          <div>
+            <div>
+              <label>
+                New User: <input type="text" />
+              </label>
+            </div>
+            <div>
+              <label>
+                New Password: <input type="text" />
+              </label>
+            </div>
+            <div>
+              <button>Submit</button>
             </div>
           </div>
         )}
