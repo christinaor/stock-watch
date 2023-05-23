@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 
 export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = React.useState(true);
