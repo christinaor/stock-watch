@@ -1,12 +1,38 @@
 import { useState } from 'react';
 import Header from './components/Header';
 import Login from './components/Login';
+import './App.css';
 
-export default function App() {
+function App() {
   const [isOpen, setIsOpen] = useState(false);
+  const [allocations, setAllocations] = useState([]);
+
   function toggleNewFolio() {
     setIsOpen(!isOpen);
   }
+
+  function addNewAllocation(event) {
+    event.preventDefault();
+
+    const newAllocation = {
+      symbol: '',
+      percentage: 0,
+    };
+    setAllocations([...allocations, newAllocation]);
+  }
+
+  function handleSymbolChange(index, event) {
+    const updatedAllocations = [...allocations];
+    updatedAllocations[index].symbol = event.target.value;
+    setAllocations(updatedAllocations);
+  }
+
+  function handlePercentageChange(index, event) {
+    const updatedAllocations = [...allocations];
+    updatedAllocations[index].percentage = event.target.value;
+    setAllocations(updatedAllocations);
+  }
+
   return (
     <div>
       <Header />
@@ -31,9 +57,36 @@ export default function App() {
               </section>
               <section>
                 <label>
-                  Allocation:
+                  Symbol:
                   <input type="text" />
+                  Percentage: <input type="number" />
                 </label>
+                <div>
+                  {allocations.map((allocation, index) => (
+                    <div key={index}>
+                      <label>
+                        Symbol:
+                        <input
+                          type="text"
+                          value={allocation.symbol}
+                          onChange={(event) => handleSymbolChange(index, event)}
+                        />
+                      </label>
+                      <label>
+                        Percentage:
+                        <input
+                          type="number"
+                          value={allocation.percentage}
+                          onChange={(event) =>
+                            handlePercentageChange(index, event)
+                          }
+                        />
+                      </label>
+                    </div>
+                  ))}
+
+                  <button onClick={addNewAllocation}>Add allocation</button>
+                </div>
               </section>
               <section>
                 <button>Submit</button>
@@ -52,3 +105,5 @@ export default function App() {
     </div>
   );
 }
+
+export default App;
