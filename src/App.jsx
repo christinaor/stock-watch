@@ -1,9 +1,9 @@
-import React from 'react';
+import { useState } from 'react';
 import Header from './components/Header';
 import Login from './components/Login';
 
 export default function App() {
-  const [isOpen, setIsOpen] = React.useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   function toggleNewFolio() {
     setIsOpen(!isOpen);
   }
