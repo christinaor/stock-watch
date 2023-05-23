@@ -1,7 +1,6 @@
 import * as React from 'react';
 import Header from './components/Header';
 import Login from './components/Login';
-import './style.css';
 
 export default function App() {
   const [isOpen, setIsOpen] = React.useState(false);
