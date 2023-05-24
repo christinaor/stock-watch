@@ -6,8 +6,8 @@
 /* COLOR SCHEME ~~~~
 #050A30 -- dark blue
 #AAFF00 -- bright green for text
-        -- NEED AN ACCENT COLOR
-        */
+#F9F6F0 -- cream color for buttons, etc.
+*/
 
 .folio-list {
     background-color: #F9F6F0;
@@ -16,5 +16,39 @@
 
 .add__btn {
     background-color: #F9F6F0;
+}
+
+.allocation__btn {
+    color: #050A30;
+    border: solid 3px #050A30;
+    border-radius: 100px;
+    background-color: #F9F6F0;
+    padding: 0.5em 1.5em;
+    margin: 0.5em;
+    font-weight: 500;
+}
+
+.allocation__btn:hover {
+    color: #AAFF00;
+    background-color: #050A30;
+}
+
+.allocations-container {
+    background-color: #F9F6F0;
+}
+
+.new-folio-container {
+    background-color: #050A30;
+    color: #AAFF00;
+}
+
+.new-folio-container h2 {
+    font-weight: 400;
+}
+
+.detail__input {
+    background-color: #F9F6F0;
+    color: #050A30;
+    font-family: "Inter";
 }
 
