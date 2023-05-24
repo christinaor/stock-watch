@@ -6,7 +6,7 @@ export default function Login() {
 
   const styles = {
     container: { border: 'solid black 3px' },
-    disabled: { 'background-color': '#A8A8A8' },
+    disabled: { backgroundColor: '#A8A8A8' },
     btn: { border: 'solid black 3px' },
   };
 

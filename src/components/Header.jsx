@@ -3,7 +3,7 @@ import React from 'react';
 export default function Header() {
   const flex__text = {
     display: 'flex',
-    'justify-content': 'space-between',
+    justifyContent: 'space-between',
   };
   return (
     <div>
