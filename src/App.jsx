@@ -5,16 +5,24 @@ import Login from './components/Login';
 import './App.css';
 
 function App() {
+  /**
+   * New portfolio is ultimately what is submitted.
+   * State needed for allocations, which is added to new portfolio upon submit.
+   * All fields must be cleared once the new portfolio is submitted.
+   */
   const userData = useContext(UserContext);
 
   const [isOpen, setIsOpen] = useState(false);
-  const [newAllocation, setNewAllocation] = useState({
+  const [newPortfolio, setNewPortfolio] = useState({
+    name: '',
     startDate: '',
     initialInvestment: '',
-    symbol: '',
-    percentage: null,
+    allocations: [],
   });
-  const [allocations, setAllocations] = useState([]);
+  const [newAllocation, setNewAllocation] = useState({
+    stockSymbol: '',
+    percentage: 0,
+  });
   const [isIncorrectPercent, setIsIncorrectPercent] = useState(false);
 
   function toggleNewFolio() {
@@ -25,35 +33,35 @@ function App() {
     event.preventDefault();
 
     const {
-      startDate,
-      initialInvestment,
-      symbol,
+      stockSymbol,
       percentage,
-    } = allocations;
+    } = newAllocation;
 
-    if (startDate && initialInvestment && symbol && percentage) {
+    if (stockSymbol && percentage) {
       setIsIncorrectPercent(false);
-      setAllocations([...allocations, {...newAllocation}]);
+      setNewPortfolio({...newPortfolio, allocations: [...newPortfolio.allocations, {...newAllocation}]});
       setNewAllocation({
-        startDate: '',
-        initialInvestment: '',
-        symbol: '',
-        percentage: null,
+        stockSymbol: '',
+        percentage: 0,
       });
     } else {
-      console.log('NOT complete')
+      console.log(stockSymbol, percentage, 'NOT complete')
     }    
   }
-
+console.log(newPortfolio)
   function cancelNewAllocation(event) {
     event.preventDefault();
 
     setIsIncorrectPercent(false);
     setIsOpen(false);
-    setNewAllocation({
+    setNewPortfolio({
+      name: '',
       startDate: '',
       initialInvestment: '',
-      symbol: '',
+      allocations: [],
+    })
+    setNewAllocation({
+      stockSymbol: '',
       percentage: '',
     });
   }
@@ -73,7 +81,7 @@ function App() {
   function handleSubmitAllocations(event) {
     event.preventDefault();
 
-    const totalAllocation = allocations.reduce((accumulator, allocation) => {
+    const totalAllocation = newPortfolio.allocations.reduce((accumulator, allocation) => {
       return parseFloat(accumulator) + parseFloat(allocation.percentage)
     }, 0);
 
@@ -82,7 +90,7 @@ function App() {
       return false;
     }
 
-    // const fetchTickerData = async () => {
+    // const postTickerData = async () => {
     //   const response = await fetch('/placeholder-route', {
     //     method: 'POST',
     //     headers: {
@@ -94,10 +102,9 @@ function App() {
     //   console.log(data)
     // }
 
-    // fetchTickerData();
+    // postTickerData();
   }
-  
-  console.log(allocations)
+
   return (
     <div>
       <UserContext.Provider>
@@ -111,39 +118,46 @@ function App() {
             {isOpen && (
               <form>
                 <section>
+                  <h2>Portfolio Details</h2>
+                  <label htmlFor="portfolio-name">Portfolio Name:</label>
+                  <input 
+                    name="portfolio-name"
+                    type="text" 
+                    value={newPortfolio.name}
+                    onChange={(e) => setNewPortfolio({...newPortfolio, name: e.target.value})} 
+                    required
+                  />
+
                   <label htmlFor="start-date">Starting date:</label>
                   <input 
                     name="start-date"
                     type="date" 
-                    value={newAllocation.startDate}
-                    onChange={(e) => setNewAllocation({...newAllocation, startDate: e.target.value})} 
+                    value={newPortfolio.startDate}
+                    onChange={(e) => setNewPortfolio({...newPortfolio, startDate: e.target.value})} 
                     required
                   />
-                </section>
 
-                <section>
                   <label htmlFor="initial-investment">Initial investment:</label>
                   <input 
                     name="initial-investment"
                     type="number" 
-                    value={newAllocation.initialInvestment}
-                    onChange={(e) => setNewAllocation({...newAllocation, initialInvestment: e.target.value})} 
+                    value={newPortfolio.initialInvestment}
+                    onChange={(e) => setNewPortfolio({...newPortfolio, initialInvestment: e.target.value})} 
                     required
                   />
                 </section>
 
                 <section>
-                  <label htmlFor="symbol">Symbol:</label>
+                  <h2>Allocations</h2>
+                  <label htmlFor="symbol">Stock Symbol:</label>
                   <input 
                     name="symbol" 
                     type="text" 
-                    value={newAllocation.symbol}
-                    onChange={(e) => setNewAllocation({...newAllocation, symbol: e.target.value})} 
+                    value={newAllocation.stockSymbol}
+                    onChange={(e) => setNewAllocation({...newAllocation, stockSymbol: e.target.value})} 
                     required
                   />
-                </section>
 
-                <section>
                   <label htmlFor="percentage">Percentage:</label>
                   <input 
                     name="percentage"
@@ -158,9 +172,9 @@ function App() {
                 <button onClick={addNewAllocation}>Add allocation</button>
                 <button onClick={cancelNewAllocation}>Cancel</button>
 
-                {allocations.length > 0 && allocations.map((allocation, index) => (
+                {newPortfolio.allocations.length > 0 && newPortfolio.allocations.map((allocation, index) => (
                   <div key={`allocation-${index}`}>
-                    <div>{allocation.symbol}</div>
+                    <div>{allocation.stockSymbol}</div>
                     <div>{allocation.percentage}</div>
                   </div>
 
