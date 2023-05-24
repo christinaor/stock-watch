@@ -1,17 +1,17 @@
-import { useContext, useState } from 'react';
-import { UserContext } from './contexts/UserContext';
-import Header from './components/Header';
-import Login from './components/Login';
-import './App.css';
+import { useContext, useState } from "react";
+import { UserContext } from "./contexts/UserContext";
+import Header from "./components/Header";
+import Login from "./components/Login";
+import "./App.css";
 
 function App() {
   const userData = useContext(UserContext);
 
   const [isOpen, setIsOpen] = useState(false);
   const [newAllocation, setNewAllocation] = useState({
-    startDate: '',
-    initialInvestment: '',
-    symbol: '',
+    startDate: "",
+    initialInvestment: "",
+    symbol: "",
     percentage: null,
   });
   const [allocations, setAllocations] = useState([]);
@@ -24,25 +24,20 @@ function App() {
   function addNewAllocation(event) {
     event.preventDefault();
 
-    const {
-      startDate,
-      initialInvestment,
-      symbol,
-      percentage,
-    } = allocations;
+    const { startDate, initialInvestment, symbol, percentage } = allocations;
 
     if (startDate && initialInvestment && symbol && percentage) {
       setIsIncorrectPercent(false);
-      setAllocations([...allocations, {...newAllocation}]);
+      setAllocations([...allocations, { ...newAllocation }]);
       setNewAllocation({
-        startDate: '',
-        initialInvestment: '',
-        symbol: '',
+        startDate: "",
+        initialInvestment: "",
+        symbol: "",
         percentage: null,
       });
     } else {
-      console.log('NOT complete')
-    }    
+      console.log("NOT complete");
+    }
   }
 
   function cancelNewAllocation(event) {
@@ -51,10 +46,10 @@ function App() {
     setIsIncorrectPercent(false);
     setIsOpen(false);
     setNewAllocation({
-      startDate: '',
-      initialInvestment: '',
-      symbol: '',
-      percentage: '',
+      startDate: "",
+      initialInvestment: "",
+      symbol: "",
+      percentage: "",
     });
   }
 
@@ -74,7 +69,7 @@ function App() {
     event.preventDefault();
 
     const totalAllocation = allocations.reduce((accumulator, allocation) => {
-      return parseFloat(accumulator) + parseFloat(allocation.percentage)
+      return parseFloat(accumulator) + parseFloat(allocation.percentage);
     }, 0);
 
     if (totalAllocation !== 100) {
@@ -96,61 +91,87 @@ function App() {
 
     // fetchTickerData();
   }
-  
-  console.log(allocations)
+
+  console.log(allocations);
   return (
     <div>
       <UserContext.Provider>
         <Header />
         <main>
-          {userData?.isLoggedIn && <div>{`Welcome ${userData?.username}!`}</div>}
+          {userData?.isLoggedIn && (
+            <div>{`Welcome ${userData?.username}!`}</div>
+          )}
           <div>
-            <button onClick={toggleNewFolio}>
-              <b>+</b> new portfolio
-            </button>
+            <div className="add__btn">
+              <button onClick={toggleNewFolio}>
+                <b>+</b> new portfolio
+              </button>
+            </div>
             {isOpen && (
               <form>
                 <section>
                   <label htmlFor="start-date">Starting date:</label>
-                  <input 
+                  <input
                     name="start-date"
-                    type="date" 
+                    type="date"
                     value={newAllocation.startDate}
-                    onChange={(e) => setNewAllocation({...newAllocation, startDate: e.target.value})} 
+                    onChange={(e) =>
+                      setNewAllocation({
+                        ...newAllocation,
+                        startDate: e.target.value,
+                      })
+                    }
                     required
                   />
                 </section>
 
                 <section>
-                  <label htmlFor="initial-investment">Initial investment:</label>
-                  <input 
+                  <label htmlFor="initial-investment">
+                    Initial investment:
+                  </label>
+                  <input
                     name="initial-investment"
-                    type="number" 
+                    type="number"
                     value={newAllocation.initialInvestment}
-                    onChange={(e) => setNewAllocation({...newAllocation, initialInvestment: e.target.value})} 
+                    onChange={(e) =>
+                      setNewAllocation({
+                        ...newAllocation,
+                        initialInvestment: e.target.value,
+                      })
+                    }
                     required
                   />
                 </section>
 
                 <section>
                   <label htmlFor="symbol">Symbol:</label>
-                  <input 
-                    name="symbol" 
-                    type="text" 
+                  <input
+                    name="symbol"
+                    type="text"
                     value={newAllocation.symbol}
-                    onChange={(e) => setNewAllocation({...newAllocation, symbol: e.target.value})} 
+                    onChange={(e) =>
+                      setNewAllocation({
+                        ...newAllocation,
+                        symbol: e.target.value,
+                      })
+                    }
                     required
                   />
                 </section>
 
                 <section>
                   <label htmlFor="percentage">Percentage:</label>
-                  <input 
+                  <input
                     name="percentage"
-                    type="number" 
+                    type="number"
                     value={newAllocation.percentage}
                     placeholder={0}
-                    onChange={(e) => setNewAllocation({...newAllocation, percentage: e.target.value})} 
+                    onChange={(e) =>
+                      setNewAllocation({
+                        ...newAllocation,
+                        percentage: e.target.value,
+                      })
+                    }
                     required
                   />
                 </section>
@@ -158,41 +179,46 @@ function App() {
                 <button onClick={addNewAllocation}>Add allocation</button>
                 <button onClick={cancelNewAllocation}>Cancel</button>
 
-                {allocations.length > 0 && allocations.map((allocation, index) => (
-                  <div key={`allocation-${index}`}>
-                    <div>{allocation.symbol}</div>
-                    <div>{allocation.percentage}</div>
-                  </div>
+                {allocations.length > 0 &&
+                  allocations.map((allocation, index) => (
+                    <div key={`allocation-${index}`}>
+                      <div>{allocation.symbol}</div>
+                      <div>{allocation.percentage}</div>
+                    </div>
 
-                  // <div key={`allocation-${index}`}>
-                  //   <label>
-                  //     Symbol:
-                  //     <input
-                  //       type="text"
-                  //       value={allocation[index]?.symbol}
-                  //       onChange={(event) => handleSymbolChange(index, event)}
-                  //     />
-                  //   </label>
-                  //   <label>
-                  //     Percentage:
-                  //     <input
-                  //       type="number"
-                  //       value={allocation[index]?.percentage}
-                  //       onChange={(event) =>
-                  //         handlePercentageChange(index, event)
-                  //       }
-                  //     />
-                  //   </label>
-                  // </div>
-                ))}
+                    // <div key={`allocation-${index}`}>
+                    //   <label>
+                    //     Symbol:
+                    //     <input
+                    //       type="text"
+                    //       value={allocation[index]?.symbol}
+                    //       onChange={(event) => handleSymbolChange(index, event)}
+                    //     />
+                    //   </label>
+                    //   <label>
+                    //     Percentage:
+                    //     <input
+                    //       type="number"
+                    //       value={allocation[index]?.percentage}
+                    //       onChange={(event) =>
+                    //         handlePercentageChange(index, event)
+                    //       }
+                    //     />
+                    //   </label>
+                    // </div>
+                  ))}
 
                 <button onClick={handleSubmitAllocations}>Submit</button>
-                {isIncorrectPercent && <div>Allocations do not add up to 100% - please check again!</div>}
+                {isIncorrectPercent && (
+                  <div>
+                    Allocations do not add up to 100% - please check again!
+                  </div>
+                )}
               </form>
             )}
           </div>
 
-          <div>
+          <div className="folio-list">
             <h2>Current portfolios:</h2>
           </div>
 

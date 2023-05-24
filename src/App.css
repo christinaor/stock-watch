@@ -1,1 +1,20 @@
+@font-face {
+    font-family: "Inter";
+    src: local("inter"), local("Inter"), url("./fonts/inter.ttf") format("truetype");
+}
+
+/* COLOR SCHEME ~~~~
+#050A30 -- dark blue
+#AAFF00 -- bright green for text
+        -- NEED AN ACCENT COLOR
+        */
+
+.folio-list {
+    background-color: #F9F6F0;
+ 
+}
+
+.add__btn {
+    background-color: #F9F6F0;
+}
 
