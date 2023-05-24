@@ -1,18 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import "../styles/login.css";
 
 export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
 
   const styles = {
-    container: { border: 'solid black 3px' },
-    disabled: { backgroundColor: '#A8A8A8' },
-    btn: { border: 'solid black 3px' },
+    container: { border: "solid black 3px" },
+    disabled: { backgroundColor: "#A8A8A8" },
+    btn: { border: "solid black 3px" },
   };
 
   return (
-    <div>
-      <div style={styles.container}>
+    <div className="login-modal">
+      <div className="login__text" style={styles.container}>
         <button
           onClick={() => {
             setIsLoggingIn(true);

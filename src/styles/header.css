@@ -1,0 +1,17 @@
+.flex__text {
+    display: flex;
+    justify-content: space-between;
+}
+
+.header_container {
+    background-color: #050A30;
+}
+
+.hero__text {
+    color: #AAFF00;
+    font-weight: 500;
+}
+
+.nav_login__btn {
+    align-self: flex-start;
+}

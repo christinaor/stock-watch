@@ -1,8 +1,8 @@
-import { useContext, useState } from 'react';
-import { UserContext } from './contexts/UserContext';
-import Header from './components/Header';
-import Login from './components/Login';
-import './App.css';
+import { useContext, useState } from "react";
+import { UserContext } from "./contexts/UserContext";
+import Header from "./components/Header";
+import Login from "./components/Login";
+import "./App.css";
 
 function App() {
   /**
@@ -48,7 +48,7 @@ function App() {
       console.log(stockSymbol, percentage, 'NOT complete')
     }    
   }
-console.log(newPortfolio)
+
   function cancelNewAllocation(event) {
     event.preventDefault();
 
@@ -110,11 +110,15 @@ console.log(newPortfolio)
       <UserContext.Provider>
         <Header />
         <main>
-          {userData?.isLoggedIn && <div>{`Welcome ${userData?.username}!`}</div>}
+          {userData?.isLoggedIn && (
+            <div>{`Welcome ${userData?.username}!`}</div>
+          )}
           <div>
-            <button onClick={toggleNewFolio}>
-              <b>+</b> new portfolio
-            </button>
+            <div className="add__btn">
+              <button onClick={toggleNewFolio}>
+                <b>+</b> new portfolio
+              </button>
+            </div>
             {isOpen && (
               <form>
                 <section>
@@ -129,7 +133,7 @@ console.log(newPortfolio)
                   />
 
                   <label htmlFor="start-date">Starting date:</label>
-                  <input 
+                  <input
                     name="start-date"
                     type="date" 
                     value={newPortfolio.startDate}
@@ -159,12 +163,17 @@ console.log(newPortfolio)
                   />
 
                   <label htmlFor="percentage">Percentage:</label>
-                  <input 
+                  <input
                     name="percentage"
-                    type="number" 
+                    type="number"
                     value={newAllocation.percentage}
                     placeholder={0}
-                    onChange={(e) => setNewAllocation({...newAllocation, percentage: e.target.value})} 
+                    onChange={(e) =>
+                      setNewAllocation({
+                        ...newAllocation,
+                        percentage: e.target.value,
+                      })
+                    }
                     required
                   />
                 </section>
@@ -178,35 +187,39 @@ console.log(newPortfolio)
                     <div>{allocation.percentage}</div>
                   </div>
 
-                  // <div key={`allocation-${index}`}>
-                  //   <label>
-                  //     Symbol:
-                  //     <input
-                  //       type="text"
-                  //       value={allocation[index]?.symbol}
-                  //       onChange={(event) => handleSymbolChange(index, event)}
-                  //     />
-                  //   </label>
-                  //   <label>
-                  //     Percentage:
-                  //     <input
-                  //       type="number"
-                  //       value={allocation[index]?.percentage}
-                  //       onChange={(event) =>
-                  //         handlePercentageChange(index, event)
-                  //       }
-                  //     />
-                  //   </label>
-                  // </div>
-                ))}
+                    // <div key={`allocation-${index}`}>
+                    //   <label>
+                    //     Symbol:
+                    //     <input
+                    //       type="text"
+                    //       value={allocation[index]?.symbol}
+                    //       onChange={(event) => handleSymbolChange(index, event)}
+                    //     />
+                    //   </label>
+                    //   <label>
+                    //     Percentage:
+                    //     <input
+                    //       type="number"
+                    //       value={allocation[index]?.percentage}
+                    //       onChange={(event) =>
+                    //         handlePercentageChange(index, event)
+                    //       }
+                    //     />
+                    //   </label>
+                    // </div>
+                  ))}
 
                 <button onClick={handleSubmitAllocations}>Submit</button>
-                {isIncorrectPercent && <div>Allocations do not add up to 100% - please check again!</div>}
+                {isIncorrectPercent && (
+                  <div>
+                    Allocations do not add up to 100% - please check again!
+                  </div>
+                )}
               </form>
             )}
           </div>
 
-          <div>
+          <div className="folio-list">
             <h2>Current portfolios:</h2>
           </div>
 
