@@ -14,17 +14,18 @@ function App() {
    * All fields must be cleared once the new portfolio is submitted.
    */
   const userData = useContext(UserContext);
+  // TODO - require user to login before altering portfolios on their account
   const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user)
+
   const [isOpen, setIsOpen] = useState(false);
+  const [userId, setUserId] = useState(0);
   const [newPortfolio, setNewPortfolio] = useState({
     name: "",
     startDate: "",
     initialInvestment: "",
     allocations: [],
-    userId: user.id
   });
-  console.log(newPortfolio.userId)
+
   const [newAllocation, setNewAllocation] = useState({
     stockSymbol: "",
     percentage: 0,
@@ -34,9 +35,17 @@ function App() {
   const [isIncorrectPercent, setIsIncorrectPercent] = useState(false);
 
   useEffect(() => {
+    if (user) {
+      console.log(user.id)
+      setUserId(user.id)
+    }
+  }, [user]);
+
+  useEffect(() => {
     try {
       const fetchData = async () => {
-        const response = await fetch('http://127.0.0.1:8000/stocks/');
+        const url = `${import.meta.env.VITE_API_URL}/stocks/`;
+        const response = await fetch(url);
         const data = await response.json();
         console.log(data)
       }
@@ -81,7 +90,6 @@ function App() {
       startDate: "",
       initialInvestment: "",
       allocations: [],
-      userId: user.id,
     });
     setNewAllocation({
       stockSymbol: "",
@@ -151,7 +159,7 @@ function App() {
           investment_date: newPortfolio.startDate,
           initial_balance: parseFloat(newPortfolio.initialInvestment),
           stocks: stocks,
-          user_stock: newPortfolio.userId,
+          user_stock: userId,
           list_name: newPortfolio.name,
         };
 
