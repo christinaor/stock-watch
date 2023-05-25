@@ -17,7 +17,7 @@ function App() {
    */
   const userData = useContext(UserContext);
   // TODO - require user to login before altering portfolios on their account
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -38,8 +38,8 @@ function App() {
 
   useEffect(() => {
     if (user) {
-      console.log(user.id)
-      setUserId(user.id)
+      console.log(user.id);
+      setUserId(user.id);
     }
   }, [user]);
 
@@ -379,9 +379,12 @@ function App() {
             <h2>Current portfolios:</h2>
           </div>
 
-          <div>
-            <h2>charts:</h2>
+          <h2>charts:</h2>
+          <div className="line-chart">
             <LineChart />
+          </div>
+
+          <div className="pie-chart">
             <PieChart />
           </div>
         </main>
