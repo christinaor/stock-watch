@@ -11,11 +11,23 @@ export default function Login() {
     username: "",
     password: "",
   });
+  const [inputs2, setInputs2] = useState({
+    username: "",
+    password: "",
+  });
 
   const { username, password } = inputs;
+  const { newUsername, newPassword } = inputs2;
 
   const handleChange = (e) => {
     setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleChange2 = (e) => {
+    setInputs2((prevState) => ({
       ...prevState,
       [e.target.name]: e.target.value,
     }));
@@ -51,6 +63,35 @@ export default function Login() {
       // Display an error message
       console.error('Login error:', error.message);
       toast.error('Login error:', error.message);
+    }
+  };
+
+  const handleRegistration = async (e) => {
+    const url = import.meta.env.VITE_API_URL;
+    e.preventDefault();
+    try {
+      const response = await fetch(`${url}/registration/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username: newUsername,
+          password: newPassword
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        toast.success('Registration successful');
+      } else {
+        console.log('Registration failed');
+        toast.error('Registration failed');
+      }
+    } catch (error) {
+      console.error('Registration error:', error.message);
+      toast.error('Registration error:', error.message);
     }
   };
   
@@ -123,16 +164,34 @@ export default function Login() {
           <div>
             <div>
               <label>
-                New User: <input type="text" />
+                New User:
+                <input
+              type="username"
+              id="newUsername"
+              name="newUsername"
+              value={newUsername}
+              onChange={handleChange2}
+              placeholder="Enter your username"
+              required
+              />
               </label>
             </div>
             <div>
               <label>
-                New Password: <input type="text" />
+                New Password: 
+                <input
+              type="password"
+              id="newPassword"
+              name="newPassword"
+              value={newPassword}
+              onChange={handleChange2}
+              placeholder="Enter password"
+              required
+                ="text" />
               </label>
             </div>
             <div>
-              <button>Submit</button>
+              <button onClick={handleRegistration}>Submit</button>
             </div>
           </div>
         )}
