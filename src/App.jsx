@@ -2,10 +2,12 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
+// import LineChart from "./components/LineChart";
+// import PieChart from "./components/PieChart";
 // import Login from "./components/Login";
 import "./App.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 function App() {
   /**
@@ -14,17 +16,17 @@ function App() {
    * All fields must be cleared once the new portfolio is submitted.
    */
   const userData = useContext(UserContext);
-  const user = JSON.parse(localStorage.getItem('user'));
-  console.log(user)
+  const user = JSON.parse(localStorage.getItem("user"));
+  console.log(user);
   const [isOpen, setIsOpen] = useState(false);
   const [newPortfolio, setNewPortfolio] = useState({
     name: "",
     startDate: "",
     initialInvestment: "",
     allocations: [],
-    userId: user.id
+    userId: user.id,
   });
-  console.log(newPortfolio.userId)
+  console.log(newPortfolio.userId);
   const [newAllocation, setNewAllocation] = useState({
     stockSymbol: "",
     percentage: 0,
@@ -36,17 +38,17 @@ function App() {
   useEffect(() => {
     try {
       const fetchData = async () => {
-        const response = await fetch('http://127.0.0.1:8000/stocks/');
+        const response = await fetch("http://127.0.0.1:8000/stocks/");
         const data = await response.json();
-        console.log(data)
-      }
+        console.log(data);
+      };
 
       fetchData();
-    } catch(err) {
-      return console.log(`Encountered the following error: ${err}`)
+    } catch (err) {
+      return console.log(`Encountered the following error: ${err}`);
     }
   }, []);
-  
+
   function toggleNewFolio() {
     setIsOpen(!isOpen);
   }
@@ -100,7 +102,7 @@ function App() {
   function handleNewPortfolioUpdate(event) {
     event.preventDefault();
 
-    setNewPortfolio({...newPortfolio, allocations: [...editedAllocations]});
+    setNewPortfolio({ ...newPortfolio, allocations: [...editedAllocations] });
     setEditedAllocations([]);
     setIsEditing(false);
   }
@@ -115,8 +117,10 @@ function App() {
   function handleDeleteAllocation(event, index) {
     event.preventDefault();
 
-    const updatedAllocations = newPortfolio.allocations.filter((allocation, i) => i !== index);
-    setNewPortfolio({...newPortfolio, allocations: [...updatedAllocations]});
+    const updatedAllocations = newPortfolio.allocations.filter(
+      (allocation, i) => i !== index
+    );
+    setNewPortfolio({ ...newPortfolio, allocations: [...updatedAllocations] });
   }
 
   function handleSubmitNewPortfolio(event) {
@@ -138,14 +142,14 @@ function App() {
         const stocks = newPortfolio.allocations.reduce((accumulator, stock) => {
           const refactoredStock = {
             stock_name: stock.stockSymbol.toUpperCase(),
-            allocation: parseFloat(stock.percentage / 100.00),
+            allocation: parseFloat(stock.percentage / 100.0),
           };
           accumulator.push(refactoredStock);
-    
+
           return accumulator;
         }, []);
 
-        console.log(newPortfolio.userId)
+        console.log(newPortfolio.userId);
         const responseBody = {
           investment_date: newPortfolio.startDate,
           initial_balance: parseFloat(newPortfolio.initialInvestment),
@@ -154,32 +158,32 @@ function App() {
           list_name: newPortfolio.name,
         };
 
-        console.log(stocks)
-        console.log(responseBody)
+        console.log(stocks);
+        console.log(responseBody);
 
         const url = `${import.meta.env.VITE_API_URL}/stocks/create/`;
         const response = await fetch(url, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
           },
           body: JSON.stringify(responseBody),
         });
 
         if (response.ok) {
           const data = await response.json();
-          console.log('Stock creation successful', data)
-          toast.success('Portfolio creation successful'); 
+          console.log("Stock creation successful", data);
+          toast.success("Portfolio creation successful");
         } else {
-          console.log('Portfolio creation failed');
-          toast.error('Portfolio creation failed'); 
+          console.log("Portfolio creation failed");
+          toast.error("Portfolio creation failed");
         }
-      }
+      };
 
       postTickerData();
-    } catch(err) {
-      console.error(`Creating portfolio error encountered: ${err}`)
-      toast.error(`Creating portfolio error encountered`)
+    } catch (err) {
+      console.error(`Creating portfolio error encountered: ${err}`);
+      toast.error(`Creating portfolio error encountered`);
     }
   }
 
@@ -200,7 +204,7 @@ function App() {
                 <b>+</b> new portfolio
               </button>
             </div>
-            
+
             {isOpen && (
               <form>
                 <section className="new-folio-container">
@@ -296,37 +300,53 @@ function App() {
                       Cancel
                     </button>
 
-                    {newPortfolio.allocations.length > 0 && !isEditing && newPortfolio.allocations.map((allocation, index) => (
-                      <section key={`allocation-${index}`}>
-                        <h3>{allocation.stockSymbol}</h3>
-                        <div>{allocation.percentage}</div>
-                      </section>
-                    ))}
-                  
-                    {!isEditing && <button onClick={() => setIsEditing(true)}>Edit Allocations</button>}
-                  
-                    {isEditing && newPortfolio?.allocations.length > 0 && <section>
-                      {newPortfolio.allocations.map((allocation, index) => (
-                        <div key={`edit-allocation-${index}`}>
+                    {newPortfolio.allocations.length > 0 &&
+                      !isEditing &&
+                      newPortfolio.allocations.map((allocation, index) => (
+                        <section key={`allocation-${index}`}>
                           <h3>{allocation.stockSymbol}</h3>
-
-                          <label htmlFor="percentage">Percentage:</label>
-                          <input
-                            name="percentage"
-                            type="number"
-                            value={allocation.percentage}
-                            placeholder={0}
-                            onChange={(e) => handleAllocationUpdate(e, index)}
-                            required
-                          />
-
-                          <button onClick={(e) => handleDeleteAllocation(e, index)}>Delete allocation</button>
-                        </div>
+                          <div>{allocation.percentage}</div>
+                        </section>
                       ))}
 
-                      <button onClick={handleNewPortfolioUpdate}>Update Allocations</button>
-                      <button onClick={handleCancelNewPortfolioUpdate}>Cancel Editing</button>
-                    </section>}
+                    {!isEditing && (
+                      <button onClick={() => setIsEditing(true)}>
+                        Edit Allocations
+                      </button>
+                    )}
+
+                    {isEditing && newPortfolio?.allocations.length > 0 && (
+                      <section>
+                        {newPortfolio.allocations.map((allocation, index) => (
+                          <div key={`edit-allocation-${index}`}>
+                            <h3>{allocation.stockSymbol}</h3>
+
+                            <label htmlFor="percentage">Percentage:</label>
+                            <input
+                              name="percentage"
+                              type="number"
+                              value={allocation.percentage}
+                              placeholder={0}
+                              onChange={(e) => handleAllocationUpdate(e, index)}
+                              required
+                            />
+
+                            <button
+                              onClick={(e) => handleDeleteAllocation(e, index)}
+                            >
+                              Delete allocation
+                            </button>
+                          </div>
+                        ))}
+
+                        <button onClick={handleNewPortfolioUpdate}>
+                          Update Allocations
+                        </button>
+                        <button onClick={handleCancelNewPortfolioUpdate}>
+                          Cancel Editing
+                        </button>
+                      </section>
+                    )}
 
                     <button
                       className="allocation__btn"
@@ -351,9 +371,10 @@ function App() {
           </div>
 
           <div>
-            <h2>Graph area</h2>
+            <h2>charts:</h2>
+            {/* <LineChart />
+            <PieChart /> */}
           </div>
-
         </main>
       </UserContext.Provider>
     </div>
