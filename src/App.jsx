@@ -2,8 +2,8 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
-// import LineChart from "./components/LineChart";
-// import PieChart from "./components/PieChart";
+import LineChart from "./components/LineChart";
+import PieChart from "./components/PieChart";
 // import Login from "./components/Login";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -20,7 +20,7 @@ function App() {
    */
   // const userData = useContext(UserContext);
   // TODO - require user to login before altering portfolios on their account
-  const user = JSON.parse(localStorage.getItem('user'));
+  const user = JSON.parse(localStorage.getItem("user"));
 
   // const [isOpen, setIsOpen] = useState(false);
   const [userId, setUserId] = useState(0);
@@ -71,10 +71,13 @@ function App() {
             currentPortfolios={currentPortfolios}
           />
 
-          <div>
-            <h2>charts:</h2>
-            {/* <LineChart />
-            <PieChart /> */}
+          <h2>charts:</h2>
+          <div className="line-chart">
+            <LineChart />
+          </div>
+
+          <div className="pie-chart">
+            <PieChart />
           </div>
         </main>
       </UserContext.Provider>
