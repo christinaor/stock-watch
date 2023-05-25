@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
+import Login from "./components/Login";
 // import Login from "./components/Login";
 import "./App.css";
 
@@ -144,6 +145,7 @@ function App() {
     <div>
       <UserContext.Provider>
         <Header />
+        <Login />
         <main>
           {userData?.isLoggedIn && (
             <div>{`Welcome ${userData?.username}!`}</div>

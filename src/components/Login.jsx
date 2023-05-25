@@ -4,6 +4,54 @@ import "../styles/login.css";
 export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
+ 
+  const [inputs, setInputs] = useState({
+    username: "",
+    password: "",
+  });
+
+  const { username, password } = inputs;
+
+  const handleChange = (e) => {
+    setInputs((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
+
+  const handleLogin = async (e) => {
+    const url = import.meta.env.VITE_API_URL
+    e.preventDefault();
+    try {
+      const response = await fetch(`${url}/login/`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          username,
+          password
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data)
+        localStorage.setItem('user', JSON.stringify(data));
+        console.log('Login successful');
+        // Redirect to another page using React Router
+        // history.push('/dashboard');
+      } else {
+        console.log('Login failed');
+      }
+    } catch (error) {
+      // Handle the login error
+      // Display an error message
+      console.error('Login error:', error.message);
+    }
+  };
+  
+  
 
   const styles = {
     container: { border: "solid black 3px" },
@@ -18,6 +66,7 @@ export default function Login() {
           onClick={() => {
             setIsLoggingIn(true);
             setIsRegistering(false);
+           
           }}
           style={isLoggingIn ? styles.disabled : styles.btn}
         >
@@ -36,16 +85,34 @@ export default function Login() {
           <div>
             <div>
               <label>
-                Username: <input type="text" />
+                Username: 
+              <input
+              type="username"
+              id="username"
+              name="username"
+              value={username}
+              onChange={handleChange}
+              placeholder="Enter your username"
+              required
+              />
               </label>
             </div>
             <div>
               <label>
-                Password: <input type="text" />
+                Password: 
+                <input
+              type="password"
+              id="password"
+              name="password"
+              value={password}
+              onChange={handleChange}
+              placeholder="Enter password"
+              required
+                ="text" />
               </label>
             </div>
             <div>
-              <button>Submit</button>
+              <button onClick={ handleLogin}>Submit</button>
             </div>
           </div>
         )}
