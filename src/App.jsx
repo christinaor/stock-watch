@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
@@ -28,6 +28,20 @@ function App() {
   const [editedAllocations, setEditedAllocations] = useState([]);
   const [isIncorrectPercent, setIsIncorrectPercent] = useState(false);
 
+  useEffect(() => {
+    try {
+      const fetchData = async () => {
+        const response = await fetch('http://127.0.0.1:8000/stocks/');
+        const data = await response.json();
+        console.log(data)
+      }
+
+      fetchData();
+    } catch(err) {
+      return console.log(`Encountered the following error: ${err}`)
+    }
+  }, []);
+  
   function toggleNewFolio() {
     setIsOpen(!isOpen);
   }
@@ -126,19 +140,56 @@ function App() {
       return false;
     }
 
-    // const postTickerData = async () => {
-    //   const response = await fetch('/placeholder-route', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({...allocations})
-    //   });
-    //   const data = await response.json();
-    //   console.log(data)
-    // }
+    // const stocks = newPortfolio.allocations.reduce((accumulator, stock) => {
+    //   const refactoredStock = {
+    //     stock_name: stock.stockSymbol.toUpperCase(),
+    //     allocation: parseFloat(stock.percentage / 100.00),
+    //   };
+    //   accumulator.push(refactoredStock);
 
-    // postTickerData();
+    //   return accumulator;
+    // }, []);
+
+    try {
+
+    
+      const postTickerData = async () => {
+        const stocks = newPortfolio.allocations.reduce((accumulator, stock) => {
+          const refactoredStock = {
+            stock_name: stock.stockSymbol.toUpperCase(),
+            allocation: parseFloat(stock.percentage / 100.00),
+          };
+          accumulator.push(refactoredStock);
+    
+          return accumulator;
+        }, []);
+
+        const responseBody = {
+          investment_date: newPortfolio.startDate,
+          initial_balance: parseFloat(newPortfolio.initialInvestment),
+          stocks: stocks,
+          user_stock: 1,
+          list_name: newPortfolio.name,
+        };
+
+        console.log(stocks)
+        console.log(responseBody)
+
+        const response = await fetch(`http://127.0.0.1:8000/stocks/create/?name=${newPortfolio.name.replace(' ','-')}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(responseBody),
+        });
+        const data = await response.json();
+        console.log(data)
+      }
+
+      postTickerData();
+    } catch(err) {
+      console.log(`Error encountered: ${err}`)
+    }
   }
 
   return (
@@ -244,8 +295,6 @@ function App() {
                   >
                     Add allocation
                   </button>
-                  
-
 
                   <div>
                     <button
@@ -313,7 +362,6 @@ function App() {
             <h2>Graph area</h2>
           </div>
 
-          {/* <Login /> */}
         </main>
       </UserContext.Provider>
     </div>
