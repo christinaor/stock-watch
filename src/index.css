@@ -12,6 +12,6 @@ button, input[type="submit"], input[type="reset"] {
 	outline: inherit;
 }
 
-h2 {
-    margin: 0 auto;
+body {
+	margin: 0 auto;
 }

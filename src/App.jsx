@@ -2,8 +2,8 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
-// import LineChart from "./components/LineChart";
-// import PieChart from "./components/PieChart";
+import LineChart from "./components/LineChart";
+import PieChart from "./components/PieChart";
 // import Login from "./components/Login";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
@@ -373,8 +373,8 @@ function App() {
 
           <div>
             <h2>charts:</h2>
-            {/* <LineChart />
-            <PieChart /> */}
+            <LineChart />
+            <PieChart />
           </div>
         </main>
       </UserContext.Provider>
