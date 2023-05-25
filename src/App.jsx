@@ -131,6 +131,7 @@ function App() {
 
     if (totalAllocation !== 100) {
       setIsIncorrectPercent(true);
+      return false;
     }
 
     try {
