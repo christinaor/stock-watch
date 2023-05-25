@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 // import Login from "./components/Login";
 import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   /**
@@ -12,14 +14,17 @@ function App() {
    * All fields must be cleared once the new portfolio is submitted.
    */
   const userData = useContext(UserContext);
-
+  const user = JSON.parse(localStorage.getItem('user'));
+  console.log(user)
   const [isOpen, setIsOpen] = useState(false);
   const [newPortfolio, setNewPortfolio] = useState({
     name: "",
     startDate: "",
     initialInvestment: "",
     allocations: [],
+    userId: user.id
   });
+  console.log(newPortfolio.userId)
   const [newAllocation, setNewAllocation] = useState({
     stockSymbol: "",
     percentage: 0,
@@ -76,6 +81,7 @@ function App() {
       startDate: "",
       initialInvestment: "",
       allocations: [],
+      userId: user.id,
     });
     setNewAllocation({
       stockSymbol: "",
@@ -106,18 +112,6 @@ function App() {
     setIsEditing(false);
   }
 
-  // function handleSymbolChange(index, event) {
-  //   const updatedAllocations = [...allocations];
-  //   updatedAllocations[index].symbol = event.target.value;
-  //   setAllocations(updatedAllocations);
-  // }
-
-  // function handlePercentageChange(index, event) {
-  //   const updatedAllocations = [...allocations];
-  //   updatedAllocations[index].percentage = event.target.value;
-  //   setAllocations(updatedAllocations);
-  // }
-
   function handleDeleteAllocation(event, index) {
     event.preventDefault();
 
@@ -125,7 +119,7 @@ function App() {
     setNewPortfolio({...newPortfolio, allocations: [...updatedAllocations]});
   }
 
-  function handleSubmitAllocations(event) {
+  function handleSubmitNewPortfolio(event) {
     event.preventDefault();
 
     const totalAllocation = newPortfolio.allocations.reduce(
@@ -140,19 +134,7 @@ function App() {
       return false;
     }
 
-    // const stocks = newPortfolio.allocations.reduce((accumulator, stock) => {
-    //   const refactoredStock = {
-    //     stock_name: stock.stockSymbol.toUpperCase(),
-    //     allocation: parseFloat(stock.percentage / 100.00),
-    //   };
-    //   accumulator.push(refactoredStock);
-
-    //   return accumulator;
-    // }, []);
-
     try {
-
-    
       const postTickerData = async () => {
         const stocks = newPortfolio.allocations.reduce((accumulator, stock) => {
           const refactoredStock = {
@@ -164,31 +146,41 @@ function App() {
           return accumulator;
         }, []);
 
+        console.log(newPortfolio.userId)
         const responseBody = {
           investment_date: newPortfolio.startDate,
           initial_balance: parseFloat(newPortfolio.initialInvestment),
           stocks: stocks,
-          user_stock: 1,
+          user_stock: newPortfolio.userId,
           list_name: newPortfolio.name,
         };
 
         console.log(stocks)
         console.log(responseBody)
 
-        const response = await fetch(`http://127.0.0.1:8000/stocks/create/?name=${newPortfolio.name.replace(' ','-')}`, {
+        const url = `${import.meta.env.VITE_API_URL}/stocks/create/`;
+        const response = await fetch(url, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(responseBody),
         });
-        const data = await response.json();
-        console.log(data)
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log('Stock creation successful', data)
+          toast.success('Portfolio creation successful'); 
+        } else {
+          console.log('Portfolio creation failed');
+          toast.error('Portfolio creation failed'); 
+        }
       }
 
       postTickerData();
     } catch(err) {
-      console.log(`Error encountered: ${err}`)
+      console.error(`Creating portfolio error encountered: ${err}`)
+      toast.error(`Creating portfolio error encountered`)
     }
   }
 
@@ -197,6 +189,7 @@ function App() {
       <UserContext.Provider>
         <Header />
         <Login />
+        <ToastContainer />
         <main>
           {userData?.isLoggedIn && (
             <div>{`Welcome ${userData?.username}!`}</div>
@@ -338,7 +331,7 @@ function App() {
 
                     <button
                       className="allocation__btn"
-                      onClick={handleSubmitAllocations}
+                      onClick={handleSubmitNewPortfolio}
                     >
                       Submit
                     </button>
