@@ -4,6 +4,8 @@ import Header from "./components/Header";
 import Login from "./components/Login";
 // import Login from "./components/Login";
 import "./App.css";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 function App() {
   /**
@@ -12,13 +14,14 @@ function App() {
    * All fields must be cleared once the new portfolio is submitted.
    */
   const userData = useContext(UserContext);
-
+  const user = JSON.parse(localStorage.getItem('user'));
   const [isOpen, setIsOpen] = useState(false);
   const [newPortfolio, setNewPortfolio] = useState({
     name: "",
     startDate: "",
     initialInvestment: "",
     allocations: [],
+    user_stock:user.id
   });
   const [newAllocation, setNewAllocation] = useState({
     stockSymbol: "",
@@ -27,6 +30,7 @@ function App() {
   const [isEditing, setIsEditing] = useState(false);
   const [editedAllocations, setEditedAllocations] = useState([]);
   const [isIncorrectPercent, setIsIncorrectPercent] = useState(false);
+  
 
   function toggleNewFolio() {
     setIsOpen(!isOpen);
@@ -62,6 +66,7 @@ function App() {
       startDate: "",
       initialInvestment: "",
       allocations: [],
+      user_stock: user.id,
     });
     setNewAllocation({
       stockSymbol: "",
@@ -126,26 +131,44 @@ function App() {
       return false;
     }
 
-    // const postTickerData = async () => {
-    //   const response = await fetch('/placeholder-route', {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify({...allocations})
-    //   });
-    //   const data = await response.json();
-    //   console.log(data)
-    // }
 
-    // postTickerData();
   }
+
+  const handleStockCreate = async () => {
+    const url = `${import.meta.env.VITE_API_URL}/stocks/create/`;
+  
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          newPortfolio
+        }),
+      });
+  
+      if (response.ok) {
+        const data = await response.json();
+        console.log('Stock creation successful', data);
+        toast.success('Stock creation successful'); 
+      } else {
+        console.log('Stock creation failed');
+        toast.error('Stock creation failed'); 
+      }
+    } catch (error) {
+      console.error('Stock creation error:', error);
+      toast.error('An error occurred while creating stocks'); 
+    }
+  };
+
 
   return (
     <div>
       <UserContext.Provider>
         <Header />
         <Login />
+        <ToastContainer />
         <main>
           {userData?.isLoggedIn && (
             <div>{`Welcome ${userData?.username}!`}</div>
@@ -289,7 +312,10 @@ function App() {
 
                     <button
                       className="allocation__btn"
-                      onClick={handleSubmitAllocations}
+                      onClick={
+                        handleSubmitAllocations,
+                        handleStockCreate
+                      }
                     >
                       Submit
                     </button>

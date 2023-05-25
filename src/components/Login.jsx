@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "../styles/login.css";
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
@@ -39,15 +41,16 @@ export default function Login() {
         console.log(data)
         localStorage.setItem('user', JSON.stringify(data));
         console.log('Login successful');
-        // Redirect to another page using React Router
-        // history.push('/dashboard');
+        toast.success('Login successful');
       } else {
         console.log('Login failed');
+        toast.error('Login failed');
       }
     } catch (error) {
       // Handle the login error
       // Display an error message
       console.error('Login error:', error.message);
+      toast.error('Login error:', error.message);
     }
   };
   
