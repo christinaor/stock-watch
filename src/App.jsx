@@ -148,12 +148,14 @@ function App() {
           {userData?.isLoggedIn && (
             <div>{`Welcome ${userData?.username}!`}</div>
           )}
+
           <div>
             <div className="add__btn">
               <button className="allocation__btn" onClick={toggleNewFolio}>
                 <b>+</b> new portfolio
               </button>
             </div>
+            
             {isOpen && (
               <form>
                 <section className="new-folio-container">
@@ -240,6 +242,9 @@ function App() {
                   >
                     Add allocation
                   </button>
+                  
+
+
                   <div>
                     <button
                       className="allocation__btn"
@@ -248,35 +253,15 @@ function App() {
                       Cancel
                     </button>
 
-                <section>
-                  {newPortfolio.allocations.length > 0 && !isEditing && newPortfolio.allocations.map((allocation, index) => (
-                    <section key={`allocation-${index}`}>
-                      <h3>{allocation.stockSymbol}</h3>
-                      <div>{allocation.percentage}</div>
-                    </section>
-
-                      // <div key={`allocation-${index}`}>
-                      //   <label>
-                      //     Symbol:
-                      //     <input
-                      //       type="text"
-                      //       value={allocation[index]?.symbol}
-                      //       onChange={(event) => handleSymbolChange(index, event)}
-                      //     />
-                      //   </label>
-                      //   <label>
-                      //     Percentage:
-                      //     <input
-                      //       type="number"
-                      //       value={allocation[index]?.percentage}
-                      //       onChange={(event) =>
-                      //         handlePercentageChange(index, event)
-                      //       }
-                      //     />
-                      //   </label>
-                      // </div>
+                    {newPortfolio.allocations.length > 0 && !isEditing && newPortfolio.allocations.map((allocation, index) => (
+                      <section key={`allocation-${index}`}>
+                        <h3>{allocation.stockSymbol}</h3>
+                        <div>{allocation.percentage}</div>
+                      </section>
                     ))}
+                  
                     {!isEditing && <button onClick={() => setIsEditing(true)}>Edit Allocations</button>}
+                  
                     {isEditing && newPortfolio?.allocations.length > 0 && <section>
                       {newPortfolio.allocations.map((allocation, index) => (
                         <div key={`edit-allocation-${index}`}>
@@ -294,14 +279,11 @@ function App() {
 
                           <button onClick={(e) => handleDeleteAllocation(e, index)}>Delete allocation</button>
                         </div>
-
-                        
                       ))}
 
                       <button onClick={handleNewPortfolioUpdate}>Update Allocations</button>
                       <button onClick={handleCancelNewPortfolioUpdate}>Cancel Editing</button>
                     </section>}
-                </section>
 
                     <button
                       className="allocation__btn"
@@ -311,6 +293,7 @@ function App() {
                     </button>
                   </div>
                 </section>
+
                 {isIncorrectPercent && (
                   <div>
                     Allocations do not add up to 100% - please check again!
