@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { toast } from 'react-toastify';
+import { redirect } from 'react-router-dom';
 
 function Logout() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    
     const[username,setUsername] = useState()
+    const user = JSON.parse(localStorage.getItem('user'))
+    
+
+ 
   
     const handleLogout = async () => {
         const url = import.meta.env.VITE_API_URL;
@@ -19,10 +24,9 @@ function Logout() {
           if (response.ok) {
             // Remove the user from local storage
             localStorage.removeItem('user');
-            console.log('Logged out');
+            console.log('Logged out'); 
             toast.success('Logged out successfully');
-            setUsername(null)
-            // Add any additional logic or redirection after logout if needed
+            redirect('/')
           } else {
             console.log('Logout failed');
             toast.error('Logout failed');
@@ -37,7 +41,7 @@ function Logout() {
   return (
     <div>
         { user ?
-        <button onClick={handleLogout} className="hero__text">Logout</button>
+        (<button onClick={handleLogout} className="hero__text">Logout</button>)
         : ''
 }
     </div>
