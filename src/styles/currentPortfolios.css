@@ -12,12 +12,23 @@
     flex-direction: column;
     margin-left: 1em;
     width:20vw;
-    
+
+    border: 1px solid black;
+    padding: 1em;
+    min-height: 15rem;
+    transition: 0.2s;
   }
   
+  .list-item:hover {
+    box-shadow: 0 0 4px 4px red;
+  }
   
   .list-header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
   }
   
+  .editing {
+    background-color: gray;
+  }
