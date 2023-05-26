@@ -1,5 +1,6 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { toast } from "react-toastify";
+import "../styles/newPortfolioAllocations.css";
 
 export default function NewPortfolioAllocations(props) {
   const {
@@ -31,7 +32,7 @@ export default function NewPortfolioAllocations(props) {
     } else {
       toast.error("Not all allocation fields were filled - please try again!");
     }
-  }
+  };
 
   const handleAllocationUpdate = (event, index) => {
     event.preventDefault();
@@ -39,7 +40,7 @@ export default function NewPortfolioAllocations(props) {
     const updatedAllocations = [...newPortfolio.allocations];
     updatedAllocations[index].percentage = event.target.value;
     setEditedAllocations(updatedAllocations);
-  }
+  };
 
   const handleNewPortfolioUpdate = (event) => {
     event.preventDefault();
@@ -47,14 +48,14 @@ export default function NewPortfolioAllocations(props) {
     setNewPortfolio({ ...newPortfolio, allocations: [...editedAllocations] });
     setEditedAllocations([]);
     setIsEditing(false);
-  }
+  };
 
   const handleCancelNewPortfolioUpdate = (event) => {
     event.preventDefault();
 
     setEditedAllocations([]);
     setIsEditing(false);
-  }
+  };
 
   const handleDeleteAllocation = (event, index) => {
     event.preventDefault();
@@ -63,9 +64,9 @@ export default function NewPortfolioAllocations(props) {
       (allocation, i) => i !== index
     );
     setNewPortfolio({ ...newPortfolio, allocations: [...updatedAllocations] });
-  }
+  };
 
-  return(
+  return (
     <section className="allocations-container">
       <h2>Allocations</h2>
       <label htmlFor="symbol">Stock Symbol:</label>
@@ -97,61 +98,55 @@ export default function NewPortfolioAllocations(props) {
         required
       />
 
-      <button
-        className="allocation__btn"
-        onClick={addNewAllocation}
-      >
+      <button className="allocation__btn" onClick={addNewAllocation}>
         Add allocation
       </button>
 
-      <div>
-        {newPortfolio.allocations.length > 0 && !isEditing &&
+      <div className="allocation__text">
+        {newPortfolio.allocations.length > 0 &&
+          !isEditing &&
           newPortfolio.allocations.map((allocation, index) => (
             <section key={`allocation-${index}`}>
-              <h3>{allocation.stockSymbol}</h3>
-              <div>{allocation.percentage}</div>
+              <h3>{allocation.stockSymbol.toUpperCase()}</h3>
+              <div>{allocation.percentage + "%"}</div>
             </section>
           ))}
-
-        {!isEditing && (
-          <button className="allocation__btn" onClick={() => setIsEditing(true)}>
-            Edit Allocations
-          </button>
-        )}
-
-        {isEditing && newPortfolio?.allocations.length > 0 && (
-          <section>
-            {newPortfolio.allocations.map((allocation, index) => (
-              <div key={`edit-allocation-${index}`}>
-                <h3>{allocation.stockSymbol}</h3>
-
-                <label htmlFor="percentage">Percentage:</label>
-                <input
-                  name="percentage"
-                  type="number"
-                  value={allocation.percentage}
-                  placeholder={0}
-                  onChange={(e) => handleAllocationUpdate(e, index)}
-                  required
-                />
-
-                <button
-                  onClick={(e) => handleDeleteAllocation(e, index)}
-                >
-                  Delete allocation
-                </button>
-              </div>
-            ))}
-
-            <button onClick={handleNewPortfolioUpdate}>
-              Update Allocations
-            </button>
-            <button onClick={handleCancelNewPortfolioUpdate}>
-              Cancel Editing
-            </button>
-          </section>
-        )}
       </div>
+
+      {!isEditing && (
+        <button className="allocation__btn" onClick={() => setIsEditing(true)}>
+          Edit Allocations
+        </button>
+      )}
+
+      {isEditing && newPortfolio?.allocations.length > 0 && (
+        <section>
+          {newPortfolio.allocations.map((allocation, index) => (
+            <div key={`edit-allocation-${index}`}>
+              <h3>{allocation.stockSymbol}</h3>
+
+              <label htmlFor="percentage">Percentage:</label>
+              <input
+                name="percentage"
+                type="number"
+                value={allocation.percentage}
+                placeholder={0}
+                onChange={(e) => handleAllocationUpdate(e, index)}
+                required
+              />
+
+              <button onClick={(e) => handleDeleteAllocation(e, index)}>
+                Delete allocation
+              </button>
+            </div>
+          ))}
+
+          <button onClick={handleNewPortfolioUpdate}>Update Allocations</button>
+          <button onClick={handleCancelNewPortfolioUpdate}>
+            Cancel Editing
+          </button>
+        </section>
+      )}
     </section>
-  )
+  );
 }

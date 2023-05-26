@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import "../styles/login.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
- 
+
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
@@ -34,35 +34,35 @@ export default function Login() {
   };
 
   const handleLogin = async (e) => {
-    const url = import.meta.env.VITE_API_URL
+    const url = import.meta.env.VITE_API_URL;
     e.preventDefault();
     try {
       const response = await fetch(`${url}/login/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username,
-          password
+          password,
         }),
       });
-  
+
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        localStorage.setItem('user', JSON.stringify(data));
-        console.log('Login successful');
-        toast.success('Login successful');
+        console.log(data);
+        localStorage.setItem("user", JSON.stringify(data));
+        console.log("Login successful");
+        toast.success("Login successful");
       } else {
-        console.log('Login failed');
-        toast.error('Login failed');
+        console.log("Login failed");
+        toast.error("Login failed");
       }
     } catch (error) {
       // Handle the login error
       // Display an error message
-      console.error('Login error:', error.message);
-      toast.error('Login error:', error.message);
+      console.error("Login error:", error.message);
+      toast.error("Login error:", error.message);
     }
   };
 
@@ -71,36 +71,34 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(`${url}/registration/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: newUsername,
-          password: newPassword
+          password: newPassword,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        toast.success('Registration successful');
+        toast.success("Registration successful");
       } else {
-        console.log('Registration failed');
-        toast.error('Registration failed');
+        console.log("Registration failed");
+        toast.error("Registration failed");
       }
     } catch (error) {
-      console.error('Registration error:', error.message);
-      toast.error('Registration error:', error.message);
+      console.error("Registration error:", error.message);
+      toast.error("Registration error:", error.message);
     }
   };
-  
-  
 
   const styles = {
     container: { border: "solid black 3px" },
-    disabled: { backgroundColor: "#A8A8A8" },
-    btn: { border: "solid black 3px" },
+    disabled: { border: "solid #AAFF00 2px", padding: "0.5em" },
+    btn: { border: "solid black 2px", padding: "0.5em" },
   };
 
   return (
@@ -110,7 +108,6 @@ export default function Login() {
           onClick={() => {
             setIsLoggingIn(true);
             setIsRegistering(false);
-           
           }}
           style={isLoggingIn ? styles.disabled : styles.btn}
         >
@@ -129,34 +126,36 @@ export default function Login() {
           <div>
             <div>
               <label>
-                Username: 
-              <input
-              type="username"
-              id="username"
-              name="username"
-              value={username}
-              onChange={handleChange}
-              placeholder="Enter your username"
-              required
-              />
+                Username:
+                <input
+                  type="username"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={handleChange}
+                  placeholder="Enter your username"
+                  required
+                />
               </label>
             </div>
             <div>
               <label>
-                Password: 
+                Password:
                 <input
-              type="password"
-              id="password"
-              name="password"
-              value={password}
-              onChange={handleChange}
-              placeholder="Enter password"
-              required
-                ="text" />
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
+                  placeholder="Enter password"
+                  required="text"
+                />
               </label>
             </div>
             <div>
-              <button onClick={ handleLogin}>Submit</button>
+              <button className="login__submit" onClick={handleLogin}>
+                Submit
+              </button>
             </div>
           </div>
         )}
@@ -166,32 +165,34 @@ export default function Login() {
               <label>
                 New User:
                 <input
-              type="username"
-              id="newUsername"
-              name="newUsername"
-              value={newUsername}
-              onChange={handleChange2}
-              placeholder="Enter your username"
-              required
-              />
+                  type="username"
+                  id="newUsername"
+                  name="newUsername"
+                  value={newUsername}
+                  onChange={handleChange2}
+                  placeholder="Enter your username"
+                  required
+                />
               </label>
             </div>
             <div>
               <label>
-                New Password: 
+                New Password:
                 <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={newPassword}
-              onChange={handleChange2}
-              placeholder="Enter password"
-              required
-                ="text" />
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  value={newPassword}
+                  onChange={handleChange2}
+                  placeholder="Enter password"
+                  required="text"
+                />
               </label>
             </div>
             <div>
-              <button onClick={handleRegistration}>Submit</button>
+              <button className="login__submit" onClick={handleRegistration}>
+                Submit
+              </button>
             </div>
           </div>
         )}
