@@ -20,7 +20,7 @@
   }
   
   .list-item:hover {
-    box-shadow: 0 0 4px 4px red;
+    box-shadow: 0 0 4px 4px #050A30;
   }
   
   .list-header {

@@ -20,7 +20,9 @@ ChartJS.register(
   Legend
 );
 
-function LineChart({ graphData }) {
+function LineChart(props) {
+  const { graphData, currentGraphData } = props;
+
   const options = {
     responsive: true,
     plugins: {
@@ -29,7 +31,7 @@ function LineChart({ graphData }) {
       },
       title: {
         display: true,
-        text: `initial stock prices on: ${graphData[0].investment_date}`,
+        text: `initial stock prices in $ on: ${graphData[0].investment_date}`,
       },
     },
     maintainAspectRatio: false,
@@ -51,11 +53,11 @@ function LineChart({ graphData }) {
   ];
 
   const data = {
-    labels,
+    labels: [labels[graphData[0].investment_date.charAt(6)], labels[4]],
     datasets: graphData.map((stock, i) => {
       return {
         label: stock.stock_name,
-        data: [stock.price_of_stock, 300],
+        data: [stock.price_of_stock, currentGraphData[i].close],
         borderColor: ["rgb(255, 99, 132)", "rgb(53, 162, 235)"].slice(0, i + 1),
         backgroundColor: [
           "rgba(255, 99, 132, 0.5)",
