@@ -17,22 +17,34 @@ function App() {
    */
   // const userData = useContext(UserContext);
   // TODO - require user to login before altering portfolios on their account
-
-  // const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(0);
   const [username, setUsername] = useState(null);
+  const [loggedIn, setIsLoggedIn] = useState(false);
   const [currentPortfolios, setCurrentPortfolios] = useState([]);
 
   useEffect(() => {
-    if (user) {
-      console.log(user);
-      setUserId(user.id);
-      setUsername(user.username);
+    const cachedLogin = JSON.parse(localStorage.getItem("user"));
+    if (cachedLogin) {
+      setUser(cachedLogin);
+      setUserId(cachedLogin.id);
+      setUsername(cachedLogin.username);
+      setIsLoggedIn(true);
     }
-  }, [user]);
+  }, [])
+
+  useEffect(() => {
+    if (loggedIn) {
+      const currentUser = JSON.parse(localStorage.getItem("user"));
+      setUser(currentUser);
+      setUserId(currentUser.id);
+      setUsername(currentUser.username);
+    } else {
+      setUser(null);
+      setUserId(0);
+      setUsername(null);
+    }
+  }, [loggedIn]);
 
   useEffect(() => {
     try {
@@ -53,16 +65,22 @@ function App() {
     }
   }, [userId]);
 
+  console.log(user)
+
   return (
     <div>
       <UserContext.Provider>
         <Header />
-        <Login />
+        {!user && (
+          <Login 
+            setIsLoggedIn={setIsLoggedIn}
+          />
+        )}
         <ToastContainer />
         <main>
-          {user && (
+          {username && (
             <Welcome
-              username={JSON.parse(localStorage.getItem("user")).username}
+              username={username}
             />
           )}
           <NewPortfolio 
