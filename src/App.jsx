@@ -65,7 +65,11 @@ function App() {
               username={JSON.parse(localStorage.getItem("user")).username}
             />
           )}
-          <NewPortfolio userId={userId} />
+          <NewPortfolio 
+            userId={userId} 
+            currentPortfolios={currentPortfolios}
+            setCurrentPortfolios={setCurrentPortfolios}
+          />
 
           <CurrentPortfolios
             currentPortfolios={currentPortfolios}

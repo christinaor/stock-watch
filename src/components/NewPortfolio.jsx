@@ -9,8 +9,13 @@ import NewPortfolioDetails from "./NewPortfolioDetails";
 import NewPortfolioAllocations from "./NewPortfolioAllocations";
 
 export default function NewPortfolio(props) {
-  const { userId } = props;
+  const { 
+    userId,
+    currentPortfolios,
+    setCurrentPortfolios, 
+  } = props;
 
+  console.log(currentPortfolios)
   const [newPortfolio, setNewPortfolio] = useState({
     name: "",
     startDate: "",
@@ -146,7 +151,7 @@ export default function NewPortfolio(props) {
           </div>
 
           {isIncorrectPercent && (
-            <div>Allocations do not add up to 100% - please check again!</div>
+            <div>Allocations do not add up to 100%. Please check again!</div>
           )}
         </form>
       )}

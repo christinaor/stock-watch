@@ -187,8 +187,7 @@ export default function CurrentPortfolios(props) {
     setAllocations([]);
   };
 
-  // doesn't work when you click it :(
-  const handleGraphData = (e, listName) => {
+  const handleGraphData = (listName) => {
     const selectedPortfolio = currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
     );
