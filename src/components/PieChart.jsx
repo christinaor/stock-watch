@@ -3,6 +3,20 @@ import { Pie } from "react-chartjs-2";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
+const options = {
+  responsive: true,
+  // plugins: {
+  //   legend: {
+  //     position: "top",
+  //   },
+  //   title: {
+  //     display: true,
+  //     text: "allocation evolution over time",
+  //   },
+  // },
+  maintainAspectRatio: false,
+};
+
 const data = {
   labels: ["Red", "Blue", "Yellow"],
   datasets: [
@@ -25,5 +39,5 @@ const data = {
 };
 
 export default function PieChart() {
-  return <Pie data={data} />;
+  return <Pie options={options} data={data} />;
 }

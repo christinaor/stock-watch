@@ -1,7 +1,7 @@
-.flex__text {
+/* .flex__text {
     display: flex;
     justify-content: space-between;
-}
+} */
 
 .header_container {
     background-color: #050A30;
@@ -10,6 +10,17 @@
 .hero__text {
     color: #AAFF00;
     font-weight: 500;
+    padding: 0.5em 0 0.5em 50px;
+    margin: 0 auto;
+}
+
+.hero__desc {
+    color: #AAFF00;
+    font-style: italic;
+    font-weight: 300;
+    margin: 0 auto;
+    padding-left: 50px;
+    padding-bottom: 1em;
 }
 
 .nav_login__btn {
