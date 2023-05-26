@@ -100,6 +100,24 @@ export default function NewPortfolio(props) {
 
         if (response.ok) {
           const data = await response.json();
+          const updatedPortfolios = [...currentPortfolios];
+          for (const addedStock of data) {
+            updatedPortfolios.push(addedStock);
+          }
+          setCurrentPortfolios(updatedPortfolios);
+          setIsOpen(false);
+          setNewPortfolio({
+            name: "",
+            startDate: "",
+            initialInvestment: "",
+            allocations: [],
+          });
+          setNewAllocation({
+            stockSymbol: "",
+            percentage: 0,
+          });
+          setIsIncorrectPercent(false);
+
           console.log("Stock creation successful", data);
           toast.success("Portfolio creation successful");
         } else {
