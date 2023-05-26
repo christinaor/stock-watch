@@ -1,17 +1,15 @@
-import { useState } from 'react';
+import { useState } from "react";
 
-import AddNewPortfolioToggle from './AddNewPortfolioToggle';
+import AddNewPortfolioToggle from "./AddNewPortfolioToggle";
 
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
-import NewPortfolioDetails from './NewPortfolioDetails';
-import NewPortfolioAllocations from './NewPortfolioAllocations';
+import NewPortfolioDetails from "./NewPortfolioDetails";
+import NewPortfolioAllocations from "./NewPortfolioAllocations";
 
 export default function NewPortfolio(props) {
-  const {
-    userId,
-  }= props;
+  const { userId } = props;
 
   const [newPortfolio, setNewPortfolio] = useState({
     name: "",
@@ -28,7 +26,7 @@ export default function NewPortfolio(props) {
 
   const toggleNewFolio = () => {
     setIsOpen(!isOpen);
-  }
+  };
 
   const cancelNewPortfolio = (event) => {
     event.preventDefault();
@@ -45,7 +43,7 @@ export default function NewPortfolio(props) {
       stockSymbol: "",
       percentage: "",
     });
-  }
+  };
 
   const handleSubmitNewPortfolio = (event) => {
     event.preventDefault();
@@ -110,7 +108,7 @@ export default function NewPortfolio(props) {
       console.error(`Creating portfolio error encountered: ${err}`);
       toast.error(`Creating portfolio error encountered`);
     }
-  }
+  };
 
   return (
     <div className="addNewPortfolio_container">
@@ -136,10 +134,7 @@ export default function NewPortfolio(props) {
           />
 
           <div>
-            <button
-              className="allocation__btn"
-              onClick={cancelNewPortfolio}
-            >
+            <button className="allocation__btn" onClick={cancelNewPortfolio}>
               Cancel New Portfolio
             </button>
             <button
@@ -151,12 +146,10 @@ export default function NewPortfolio(props) {
           </div>
 
           {isIncorrectPercent && (
-            <div>
-              Allocations do not add up to 100% - please check again!
-            </div>
+            <div>Allocations do not add up to 100% - please check again!</div>
           )}
         </form>
       )}
     </div>
   );
-};
+}
