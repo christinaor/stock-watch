@@ -2,8 +2,6 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
-import LineChart from "./components/LineChart";
-import PieChart from "./components/PieChart";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -67,18 +65,16 @@ function App() {
               username={JSON.parse(localStorage.getItem("user")).username}
             />
           )}
-          <NewPortfolio userId={userId} />
+          <NewPortfolio 
+            userId={userId} 
+            currentPortfolios={currentPortfolios}
+            setCurrentPortfolios={setCurrentPortfolios}
+          />
 
-          <CurrentPortfolios currentPortfolios={currentPortfolios} />
-
-          <h2>charts:</h2>
-          <div className="line-chart">
-            <LineChart />
-          </div>
-
-          <div className="pie-chart">
-            <PieChart />
-          </div>
+          <CurrentPortfolios
+            currentPortfolios={currentPortfolios}
+            setCurrentPortfolios={setCurrentPortfolios}
+          />
         </main>
       </UserContext.Provider>
     </div>

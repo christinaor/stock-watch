@@ -32,3 +32,19 @@
   .editing {
     background-color: gray;
   }
+
+  .charts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pie-chart {
+    width: 70%px;
+    height: 300px;
+}
+
+.line-chart {
+    width: 70%;
+    height: 300px;
+}
