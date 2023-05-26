@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import AddNewPortfolioToggle from "./AddNewPortfolioToggle";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import NewPortfolioDetails from "./NewPortfolioDetails";
@@ -100,6 +100,24 @@ export default function NewPortfolio(props) {
 
         if (response.ok) {
           const data = await response.json();
+          const updatedPortfolios = [...currentPortfolios];
+          for (const addedStock of data) {
+            updatedPortfolios.push(addedStock);
+          }
+          setCurrentPortfolios(updatedPortfolios);
+          setIsOpen(false);
+          setNewPortfolio({
+            name: "",
+            startDate: "",
+            initialInvestment: "",
+            allocations: [],
+          });
+          setNewAllocation({
+            stockSymbol: "",
+            percentage: 0,
+          });
+          setIsIncorrectPercent(false);
+
           console.log("Stock creation successful", data);
           toast.success("Portfolio creation successful");
         } else {

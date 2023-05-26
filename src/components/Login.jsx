@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../styles/login.css";
 import "react-toastify/dist/ReactToastify.css";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
-export default function Login() {
+export default function Login( { setIsLoggedIn }) {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -35,7 +35,7 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     const url = import.meta.env.VITE_API_URL;
-    // e.preventDefault();
+
     try {
       const response = await fetch(`${url}/login/`, {
         method: "POST",
@@ -47,11 +47,12 @@ export default function Login() {
           password,
         }),
       });
-
+      
       if (response.ok) {
         const data = await response.json();
         console.log(data);
         localStorage.setItem("user", JSON.stringify(data));
+        setIsLoggedIn(true);
         console.log("Login successful");
         toast.success("Login successful");
       } else {
