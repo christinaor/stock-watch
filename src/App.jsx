@@ -69,7 +69,10 @@ function App() {
           )}
           <NewPortfolio userId={userId} />
 
-          <CurrentPortfolios currentPortfolios={currentPortfolios} />
+          <CurrentPortfolios 
+            currentPortfolios={currentPortfolios} 
+            setCurrentPortfolios={setCurrentPortfolios}
+          />
 
           <h2>charts:</h2>
           <div className="line-chart">
