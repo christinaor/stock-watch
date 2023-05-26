@@ -5,6 +5,8 @@ import AddNewPortfolioToggle from './AddNewPortfolioToggle';
 import { ToastContainer, toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
+import NewPortfolioDetails from './NewPortfolioDetails';
+import NewPortfolioAllocations from './NewPortfolioAllocations';
 
 export default function NewPortfolio(props) {
   const {
@@ -22,35 +24,13 @@ export default function NewPortfolio(props) {
     percentage: 0,
   });
   const [isOpen, setIsOpen] = useState(false);
-  const [isEditing, setIsEditing] = useState(false);
-  const [editedAllocations, setEditedAllocations] = useState([]);
   const [isIncorrectPercent, setIsIncorrectPercent] = useState(false);
 
   const toggleNewFolio = () => {
     setIsOpen(!isOpen);
   }
 
-  const addNewAllocation = (event) => {
-    event.preventDefault();
-
-    const { stockSymbol, percentage } = newAllocation;
-
-    if (stockSymbol && percentage) {
-      setIsIncorrectPercent(false);
-      setNewPortfolio({
-        ...newPortfolio,
-        allocations: [...newPortfolio.allocations, { ...newAllocation }],
-      });
-      setNewAllocation({
-        stockSymbol: "",
-        percentage: 0,
-      });
-    } else {
-      console.log(stockSymbol, percentage, "NOT complete");
-    }
-  }
-
-  const cancelNewAllocation = (event) => {
+  const cancelNewPortfolio = (event) => {
     event.preventDefault();
 
     setIsIncorrectPercent(false);
@@ -66,39 +46,6 @@ export default function NewPortfolio(props) {
       percentage: "",
     });
   }
-
-  const handleAllocationUpdate = (event, index) => {
-    event.preventDefault();
-
-    const updatedAllocations = [...newPortfolio.allocations];
-    updatedAllocations[index].percentage = event.target.value;
-    setEditedAllocations(updatedAllocations);
-  }
-
-  const handleNewPortfolioUpdate = (event) => {
-    event.preventDefault();
-
-    setNewPortfolio({ ...newPortfolio, allocations: [...editedAllocations] });
-    setEditedAllocations([]);
-    setIsEditing(false);
-  }
-
-  const handleCancelNewPortfolioUpdate = (event) => {
-    event.preventDefault();
-
-    setEditedAllocations([]);
-    setIsEditing(false);
-  }
-
-  const handleDeleteAllocation = (event, index) => {
-    event.preventDefault();
-
-    const updatedAllocations = newPortfolio.allocations.filter(
-      (allocation, i) => i !== index
-    );
-    setNewPortfolio({ ...newPortfolio, allocations: [...updatedAllocations] });
-  }
-
 
   const handleSubmitNewPortfolio = (event) => {
     event.preventDefault();
@@ -175,155 +122,33 @@ export default function NewPortfolio(props) {
 
       {isOpen && (
         <form>
-          <section className="new-folio-container">
-            <h2>Portfolio Details</h2>
-            <label htmlFor="portfolio-name">Portfolio Name:</label>
-            <input
-              name="portfolio-name"
-              className="detail__input"
-              type="text"
-              value={newPortfolio.name}
-              onChange={(e) =>
-                setNewPortfolio({ ...newPortfolio, name: e.target.value })
-              }
-              required
-            />
+          <NewPortfolioDetails
+            newPortfolio={newPortfolio}
+            setNewPortfolio={setNewPortfolio}
+          />
 
-            <label htmlFor="start-date">Starting date:</label>
-            <input
-              name="start-date"
-              className="detail__input"
-              type="date"
-              value={newPortfolio.startDate}
-              onChange={(e) =>
-                setNewPortfolio({
-                  ...newPortfolio,
-                  startDate: e.target.value,
-                })
-              }
-              required
-            />
+          <NewPortfolioAllocations
+            newPortfolio={newPortfolio}
+            setNewPortfolio={setNewPortfolio}
+            newAllocation={newAllocation}
+            setNewAllocation={setNewAllocation}
+            setIsIncorrectPercent={setIsIncorrectPercent}
+          />
 
-            <label htmlFor="initial-investment">
-              Initial investment:
-            </label>
-            <input
-              name="initial-investment"
-              className="detail__input"
-              type="number"
-              value={newPortfolio.initialInvestment}
-              onChange={(e) =>
-                setNewPortfolio({
-                  ...newPortfolio,
-                  initialInvestment: e.target.value,
-                })
-              }
-              required
-            />
-          </section>
-
-          <section className="allocations-container">
-            <h2>Allocations</h2>
-            <label htmlFor="symbol">Stock Symbol:</label>
-            <input
-              name="symbol"
-              type="text"
-              value={newAllocation.stockSymbol}
-              onChange={(e) =>
-                setNewAllocation({
-                  ...newAllocation,
-                  stockSymbol: e.target.value,
-                })
-              }
-              required
-            />
-
-            <label htmlFor="percentage">Percentage:</label>
-            <input
-              name="percentage"
-              type="number"
-              value={newAllocation.percentage}
-              placeholder={0}
-              onChange={(e) =>
-                setNewAllocation({
-                  ...newAllocation,
-                  percentage: e.target.value,
-                })
-              }
-              required
-            />
-
+          <div>
             <button
               className="allocation__btn"
-              onClick={addNewAllocation}
+              onClick={cancelNewPortfolio}
             >
-              Add allocation
+              Cancel New Portfolio
             </button>
-
-            <div>
-              <button
-                className="allocation__btn"
-                onClick={cancelNewAllocation}
-              >
-                Cancel
-              </button>
-
-              {newPortfolio.allocations.length > 0 &&
-                !isEditing &&
-                newPortfolio.allocations.map((allocation, index) => (
-                  <section key={`allocation-${index}`}>
-                    <h3>{allocation.stockSymbol}</h3>
-                    <div>{allocation.percentage}</div>
-                  </section>
-                ))}
-
-              {!isEditing && (
-                <button onClick={() => setIsEditing(true)}>
-                  Edit Allocations
-                </button>
-              )}
-
-              {isEditing && newPortfolio?.allocations.length > 0 && (
-                <section>
-                  {newPortfolio.allocations.map((allocation, index) => (
-                    <div key={`edit-allocation-${index}`}>
-                      <h3>{allocation.stockSymbol}</h3>
-
-                      <label htmlFor="percentage">Percentage:</label>
-                      <input
-                        name="percentage"
-                        type="number"
-                        value={allocation.percentage}
-                        placeholder={0}
-                        onChange={(e) => handleAllocationUpdate(e, index)}
-                        required
-                      />
-
-                      <button
-                        onClick={(e) => handleDeleteAllocation(e, index)}
-                      >
-                        Delete allocation
-                      </button>
-                    </div>
-                  ))}
-
-                  <button onClick={handleNewPortfolioUpdate}>
-                    Update Allocations
-                  </button>
-                  <button onClick={handleCancelNewPortfolioUpdate}>
-                    Cancel Editing
-                  </button>
-                </section>
-              )}
-
-              <button
-                className="allocation__btn"
-                onClick={handleSubmitNewPortfolio}
-              >
-                Submit
-              </button>
-            </div>
-          </section>
+            <button
+              className="allocation__btn"
+              onClick={handleSubmitNewPortfolio}
+            >
+              Submit
+            </button>
+          </div>
 
           {isIncorrectPercent && (
             <div>
@@ -332,8 +157,6 @@ export default function NewPortfolio(props) {
           )}
         </form>
       )}
-
-
     </div>
   );
 };
