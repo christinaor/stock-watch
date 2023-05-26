@@ -1,0 +1,50 @@
+.folio-list {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding-left: 2em;
+  }
+  
+  .list-item {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1em;
+    width:20vw;
+
+    border: 1px solid black;
+    padding: 1em;
+    min-height: 15rem;
+    transition: 0.2s;
+  }
+  
+  .list-item:hover {
+    box-shadow: 0 0 4px 4px #050A30;
+  }
+  
+  .list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .editing {
+    background-color: gray;
+  }
+
+  .charts {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .pie-chart {
+    width: 70%px;
+    height: 300px;
+}
+
+.line-chart {
+    width: 70%;
+    height: 300px;
+}

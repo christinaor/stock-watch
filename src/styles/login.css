@@ -1,0 +1,17 @@
+.login-modal {
+    background-color: #050A30;
+}
+
+.login__text {
+    color: #AAFF00;
+    font-family: "Inter";
+}
+
+.login__submit {
+    padding: 0.5em;
+    border: solid black 2px;
+}
+
+.login__submit:hover {
+    border: solid #AAFF00 2px;
+}
