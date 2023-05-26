@@ -186,13 +186,11 @@ export default function CurrentPortfolios(props) {
     setAllocations([]);
   };
 
-  // doesn't work when you click it :(
-  const handleGraphData = (e, listName) => {
+  const handleGraphData = (listName) => {
     const selectedPortfolio = currentPortfolios.filter(
-      (portfolio) => portfolio.list_name === listName
+      portfolio => portfolio.list_name === listName
     );
     setGraphData(selectedPortfolio);
-    console.log(graphData);
   };
 
   // Set the initial collapsed state for all lists to true
