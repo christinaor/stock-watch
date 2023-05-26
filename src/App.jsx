@@ -75,13 +75,13 @@ function App() {
           />
 
           <h2>charts:</h2>
-          <div className="line-chart">
+          {/* <div className="line-chart">
             <LineChart />
           </div>
 
           <div className="pie-chart">
             <PieChart />
-          </div>
+          </div> */}
         </main>
       </UserContext.Provider>
     </div>
