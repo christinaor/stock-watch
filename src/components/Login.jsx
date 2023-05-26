@@ -1,11 +1,10 @@
 import React, { useState,useEffect } from "react";
-import "../styles/login.css";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
 import Logout from "./Logout";
-import { redirect } from "react-router-dom";
+import "../styles/login.css";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
-export default function Login() {
+export default function Login( { setIsLoggedIn }) {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -40,7 +39,7 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     const url = import.meta.env.VITE_API_URL;
-    // e.preventDefault();
+
     try {
       const response = await fetch(`${url}/login/`, {
         method: "POST",
@@ -52,14 +51,14 @@ export default function Login() {
           password,
         }),
       });
-
+      
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
-        localStorage.setItem("user",JSON.stringify(data))
-        redirect('/')
-        console.log('Login successful');
-        toast.success('Login successful');
+        console.log(data);
+        localStorage.setItem("user", JSON.stringify(data));
+        setIsLoggedIn(true);
+        console.log("Login successful");
+        toast.success("Login successful");
       } else {
         console.log("Login failed");
         toast.error("Login failed");

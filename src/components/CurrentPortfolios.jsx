@@ -15,7 +15,7 @@ export default function CurrentPortfolios(props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
   const [graphData, setGraphData] = useState(null);
-  // const [currentgraphData, setCurrentGraphData] = useState(null);
+  const [currentGraphData, setCurrentGraphData] = useState(null);
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
 
@@ -192,16 +192,19 @@ export default function CurrentPortfolios(props) {
       (portfolio) => portfolio.list_name === listName
     );
     setGraphData(selectedPortfolio);
-    console.log(graphData);
 
-    // const getCurrentData = async () => {
-    //   const url = import.meta.env.VITE_API_URL;
-    //   const response = await fetch(`${url}/stock-data/${listId}/`);
-    //   if (response.ok) {
-    //     const data = await response.json();
-    //     setCurrentGraphData(data);
-    //   }
-    // }
+    setListId(selectedPortfolio[0].list_id);
+
+    const getCurrentData = async () => {
+      const url = import.meta.env.VITE_API_URL;
+      const response = await fetch(`${url}/stock-data-current/${listId}`);
+      if (response.ok) {
+        const data = await response.json();
+        setCurrentGraphData(data);
+      }
+    };
+
+    getCurrentData();
   };
 
   // Set the initial collapsed state for all lists to true
@@ -342,11 +345,17 @@ export default function CurrentPortfolios(props) {
         {graphData && (
           <>
             <div className="line-chart">
-              <LineChart graphData={graphData} />
+              <LineChart
+                graphData={graphData}
+                currentGraphData={currentGraphData}
+              />
             </div>
 
             <div className="pie-chart">
-              <PieChart graphData={graphData} />
+              <PieChart
+                graphData={graphData}
+                currentGraphData={currentGraphData}
+              />
             </div>
           </>
         )}
