@@ -43,13 +43,13 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(`${url}/login/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username,
-          password
+          password,
         }),
       });
 
@@ -61,8 +61,8 @@ export default function Login() {
         console.log('Login successful');
         toast.success('Login successful');
       } else {
-        console.log('Login failed');
-        toast.error('Login failed');
+        console.log("Login failed");
+        toast.error("Login failed");
       }
     } catch (error) {
       console.error('Login error:', error.message);
@@ -75,34 +75,34 @@ export default function Login() {
     e.preventDefault();
     try {
       const response = await fetch(`${url}/registration/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: newUsername,
-          password: newPassword
+          password: newPassword,
         }),
       });
 
       if (response.ok) {
         const data = await response.json();
         console.log(data);
-        toast.success('Registration successful');
+        toast.success("Registration successful");
       } else {
-        console.log('Registration failed');
-        toast.error('Registration failed');
+        console.log("Registration failed");
+        toast.error("Registration failed");
       }
     } catch (error) {
-      console.error('Registration error:', error.message);
-      toast.error('Registration error:', error.message);
+      console.error("Registration error:", error.message);
+      toast.error("Registration error:", error.message);
     }
   };
 
   const styles = {
     container: { border: "solid black 3px" },
-    disabled: { backgroundColor: "#A8A8A8" },
-    btn: { border: "solid black 3px" },
+    disabled: { border: "solid #AAFF00 2px", padding: "0.5em" },
+    btn: { border: "solid black 2px", padding: "0.5em" },
   };
 
   useEffect(() => {

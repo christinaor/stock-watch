@@ -26,7 +26,6 @@ function Logout() {
             localStorage.removeItem('user');
             console.log('Logged out'); 
             toast.success('Logged out successfully');
-            redirect('/')
           } else {
             console.log('Logout failed');
             toast.error('Logout failed');
