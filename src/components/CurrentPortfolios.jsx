@@ -115,8 +115,6 @@ export default function CurrentPortfolios(props) {
 
           toast.success("Updated portfolio.");
         }
-        
-        
       };
 
       updatePortfolioAllocations();
