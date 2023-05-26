@@ -4,7 +4,6 @@ export default function AddButton(props) {
     handleClick, 
     text = '' 
   } = props;
-
   return (
     <button 
       className={`${className}`} 
