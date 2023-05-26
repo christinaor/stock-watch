@@ -1,5 +1,4 @@
-import React, { useState,useEffect } from "react";
-import Logout from "./Logout";
+import { useState } from "react";
 import "../styles/login.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
@@ -7,9 +6,6 @@ import { toast } from "react-toastify";
 export default function Login( { setIsLoggedIn }) {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
-  const user = JSON.parse(localStorage.getItem('user'))
-
 
   const [inputs, setInputs] = useState({
     username: "",
@@ -64,8 +60,10 @@ export default function Login( { setIsLoggedIn }) {
         toast.error("Login failed");
       }
     } catch (error) {
-      console.error('Login error:', error.message);
-      toast.error('Login error:', error.message);
+      // Handle the login error
+      // Display an error message
+      console.error("Login error:", error.message);
+      toast.error("Login error:", error.message);
     }
   };
 
@@ -104,110 +102,102 @@ export default function Login( { setIsLoggedIn }) {
     btn: { border: "solid black 2px", padding: "0.5em" },
   };
 
-  useEffect(() => {
-    if (user) {
-      setIsLoggingIn(true);
-    }
-  }, [user]);
-
-
-
   return (
     <div className="login-modal">
-      {!user ? (
-        <div className="login__text" style={styles.container}>
-          <button
-            onClick={() => {
-              setIsLoggingIn(true);
-              setIsRegistering(false);
-            }}
-            style={isLoggingIn ? styles.disabled : styles.btn}
-          >
-            Login
-          </button>
-          <button
-            onClick={() => {
-              setIsLoggingIn(false);
-              setIsRegistering(true);
-            }}
-            style={isRegistering ? styles.disabled : styles.btn}
-          >
-            Register
-          </button>
-          {isLoggingIn && (
+      <div className="login__text" style={styles.container}>
+        <button
+          onClick={() => {
+            setIsLoggingIn(true);
+            setIsRegistering(false);
+          }}
+          style={isLoggingIn ? styles.disabled : styles.btn}
+        >
+          Login
+        </button>
+        <button
+          onClick={() => {
+            setIsLoggingIn(false);
+            setIsRegistering(true);
+          }}
+          style={isRegistering ? styles.disabled : styles.btn}
+        >
+          Register
+        </button>
+        {isLoggingIn && (
+          <div>
             <div>
-              <div>
-                <label>
-                  Username:
-                  <input
-                    type="username"
-                    id="username"
-                    name="username"
-                    value={username}
-                    onChange={handleChange}
-                    placeholder="Enter your username"
-                    required
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  Password:
-                  <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    value={password}
-                    onChange={handleChange}
-                    placeholder="Enter password"
-                    required
-                  />
-                </label>
-              </div>
-              <div>
-                <button onClick={handleLogin}>Submit</button>
-              </div>
+              <label>
+                Username:
+                <input
+                  type="username"
+                  id="username"
+                  name="username"
+                  value={username}
+                  onChange={handleChange}
+                  placeholder="Enter your username"
+                  required
+                />
+              </label>
             </div>
-          )}
-          {isRegistering && (
             <div>
-              <div>
-                <label>
-                  New User:
-                  <input
-                    type="username"
-                    id="newUsername"
-                    name="newUsername"
-                    value={newUsername}
-                    onChange={handleChange2}
-                    placeholder="Enter your username"
-                    required
-                  />
-                </label>
-              </div>
-              <div>
-                <label>
-                  New Password:
-                  <input
-                    type="password"
-                    id="newPassword"
-                    name="newPassword"
-                    value={newPassword}
-                    onChange={handleChange2}
-                    placeholder="Enter password"
-                    required
-                  />
-                </label>
-              </div>
-              <div>
-                <button onClick={handleRegistration}>Submit</button>
-              </div>
+              <label>
+                Password:
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={password}
+                  onChange={handleChange}
+                  placeholder="Enter password"
+                  required="text"
+                />
+              </label>
             </div>
-          )}
-        </div>
-      ) : (
-        <Logout isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn}/>
-      )}
+            <div>
+              <button className="login__submit" onClick={handleLogin}>
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+        {isRegistering && (
+          <div>
+            <div>
+              <label>
+                New User:
+                <input
+                  type="username"
+                  id="newUsername"
+                  name="newUsername"
+                  value={newUsername}
+                  onChange={handleChange2}
+                  placeholder="Enter your username"
+                  required
+                />
+              </label>
+            </div>
+            <div>
+              <label>
+                New Password:
+                <input
+                  type="password"
+                  id="newPassword"
+                  name="newPassword"
+                  value={newPassword}
+                  onChange={handleChange2}
+                  placeholder="Enter password"
+                  required="text"
+                />
+              </label>
+            </div>
+            <div>
+              <button className="login__submit" onClick={handleRegistration}>
+                Submit
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
-}  
+}
