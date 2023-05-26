@@ -186,6 +186,15 @@ export default function CurrentPortfolios(props) {
     setAllocations([]);
   };
 
+  // doesn't work when you click it :(
+  const handleGraphData = (e, listName) => {
+    const selectedPortfolio = currentPortfolios.filter(
+      (portfolio) => portfolio.list_name === listName
+    );
+    setGraphData(selectedPortfolio);
+    console.log(graphData);
+  };
+
   // Set the initial collapsed state for all lists to true
   useState(() => {
     const initialCollapsedLists = Object.keys(stocksByListName).reduce(
@@ -212,13 +221,12 @@ export default function CurrentPortfolios(props) {
       )}
       <div className={`folio-list ${isEditing ? "editing" : ""}`}>
         {Object.entries(stocksByListName).map(([listName, stocks]) => (
-          <div
-            key={`list-${listName}`}
-            className="list-item"
-            onClick={(e) => handlePortfolioClick(e, listName)}
-          >
+          <div key={`list-${listName}`} className="list-item">
             <div className="list-header">
               <h3>{listName}</h3>
+              <button onClick={() => handleGraphData(listName)}>
+                <b>show graphs</b>
+              </button>
 
               <button onClick={() => toggleListCollapse(listName)}>
                 {collapsedLists[listName] ? (
