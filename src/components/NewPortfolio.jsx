@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import AddNewPortfolioToggle from "./AddNewPortfolioToggle";
 
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 import "react-toastify/dist/ReactToastify.css";
 import NewPortfolioDetails from "./NewPortfolioDetails";

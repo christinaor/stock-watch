@@ -8,6 +8,7 @@ import { ToastContainer, toast } from "react-toastify";
 import Welcome from "./components/Welcome";
 import NewPortfolio from "./components/NewPortfolio";
 import CurrentPortfolios from "./components/CurrentPortfolios";
+import Logout from "./components/Logout";
 
 function App() {
   /**
@@ -76,24 +77,32 @@ function App() {
             setIsLoggedIn={setIsLoggedIn}
           />
         )}
-        <ToastContainer />
-        <main>
-          {username && (
-            <Welcome
-              username={username}
-            />
-          )}
-          <NewPortfolio 
-            userId={userId} 
-            currentPortfolios={currentPortfolios}
-            setCurrentPortfolios={setCurrentPortfolios}
-          />
 
-          <CurrentPortfolios
-            currentPortfolios={currentPortfolios}
-            setCurrentPortfolios={setCurrentPortfolios}
+        {user && (
+          <Logout 
+            setIsLoggedIn={setIsLoggedIn}
           />
-        </main>
+        )}
+        <ToastContainer />
+        {user && (
+          <main>
+            {username && (
+              <Welcome
+                username={username}
+              />
+            )}
+            <NewPortfolio 
+              userId={userId} 
+              currentPortfolios={currentPortfolios}
+              setCurrentPortfolios={setCurrentPortfolios}
+            />
+
+            <CurrentPortfolios
+              currentPortfolios={currentPortfolios}
+              setCurrentPortfolios={setCurrentPortfolios}
+            />
+          </main>
+        )}
       </UserContext.Provider>
     </div>
   );

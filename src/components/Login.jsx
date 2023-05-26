@@ -3,7 +3,7 @@ import "../styles/login.css";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
-export default function Login( { setLoggedIn }) {
+export default function Login( { setIsLoggedIn }) {
   const [isLoggingIn, setIsLoggingIn] = useState(true);
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -52,7 +52,7 @@ export default function Login( { setLoggedIn }) {
         const data = await response.json();
         console.log(data);
         localStorage.setItem("user", JSON.stringify(data));
-        setLoggedIn(true);
+        setIsLoggedIn(true);
         console.log("Login successful");
         toast.success("Login successful");
       } else {
