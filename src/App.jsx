@@ -2,8 +2,6 @@ import { useContext, useState, useEffect } from "react";
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
-import LineChart from "./components/LineChart";
-import PieChart from "./components/PieChart";
 import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
@@ -73,19 +71,10 @@ function App() {
             setCurrentPortfolios={setCurrentPortfolios}
           />
 
-          <CurrentPortfolios 
-            currentPortfolios={currentPortfolios} 
+          <CurrentPortfolios
+            currentPortfolios={currentPortfolios}
             setCurrentPortfolios={setCurrentPortfolios}
           />
-
-          <h2>charts:</h2>
-          <div className="line-chart">
-            <LineChart />
-          </div>
-
-          <div className="pie-chart">
-            <PieChart />
-          </div>
         </main>
       </UserContext.Provider>
     </div>

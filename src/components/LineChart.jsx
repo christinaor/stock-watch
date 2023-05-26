@@ -20,18 +20,18 @@ ChartJS.register(
   Legend
 );
 
-function LineChart() {
+function LineChart({ graphData }) {
   const options = {
     responsive: true,
-    // plugins: {
-    //   legend: {
-    //     position: "top",
-    //   },
-    //   title: {
-    //     display: true,
-    //     text: "aggregate portfolio returns",
-    //   },
-    // },
+    plugins: {
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: `initial stock prices on: ${graphData[0].investment_date}`,
+      },
+    },
     maintainAspectRatio: false,
   };
 
@@ -43,24 +43,26 @@ function LineChart() {
     "May",
     "June",
     "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
   ];
 
   const data = {
     labels,
-    datasets: [
-      {
-        label: "Dataset 1",
-        data: [1, 2, 3, 4, 5, 6, 7, 8],
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.5)",
-      },
-      {
-        label: "Dataset 2",
-        data: [7, 6, 5, 4, 3, 2, 1],
-        borderColor: "rgb(53, 162, 235)",
-        backgroundColor: "rgba(53, 162, 235, 0.5)",
-      },
-    ],
+    datasets: graphData.map((stock, i) => {
+      return {
+        label: stock.stock_name,
+        data: [stock.price_of_stock, 300],
+        borderColor: ["rgb(255, 99, 132)", "rgb(53, 162, 235)"].slice(0, i + 1),
+        backgroundColor: [
+          "rgba(255, 99, 132, 0.5)",
+          "rgba(53, 162, 235, 0.5)",
+        ].slice(0, i + 1),
+      };
+    }),
   };
 
   return (
