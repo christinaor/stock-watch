@@ -234,7 +234,7 @@ export default function CurrentPortfolios(props) {
             <div className="list-header">
               <h3>{listName}</h3>
               <button onClick={() => handleGraphData(listName)}>
-                <b>show graphs</b>
+                <b className="greenText">Show Graphs</b>
               </button>
 
               <button onClick={() => toggleListCollapse(listName)}>
@@ -262,7 +262,7 @@ export default function CurrentPortfolios(props) {
                     {isDeleting && portfolio[0].list_name === listName && (
                       <div>
                         <div>{`Are you sure you want to delete portfolio "${listName}"?`}</div>
-                        <button onClick={handleDeletePortfolio}>Yes</button>
+                        <button className="redText" onClick={handleDeletePortfolio}>Yes</button>
                         <button onClick={handleCancelDeletePortfolio}>
                           No
                         </button>
