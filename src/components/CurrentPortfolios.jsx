@@ -36,15 +36,17 @@ export default function CurrentPortfolios(props) {
   }, []);
 
   return (
-    <div className="folio-list">
+    <div>
       <h2>Current portfolios:</h2>
-
+      <div className="folio-list">
+      
+    
       {Object.entries(stocksByListName).map(([listName, stocks]) => (
         <div key={`list-${listName}`} className="list-item">
           <div className="list-header">
             <h3>{listName}</h3>
             <button onClick={() => toggleListCollapse(listName)}>
-              {collapsedLists[listName] ? 'Expand +' : 'Collapse -'}
+              {collapsedLists[listName] ? <strong>+</strong> : <strong>-</strong>}
             </button>
           </div>
 
@@ -52,14 +54,15 @@ export default function CurrentPortfolios(props) {
             <div>
               {stocks.map((stock, index) => (
                 <div key={`stock-${index}`}>
-                  <div>{stock.stock_name}</div>
-                  <div>{stock.allocation}</div>
+                  <div><strong>{stock.stock_name}</strong></div>
+                  <div>{(stock.allocation * 100).toFixed(2)}%</div>
                 </div>
               ))}
             </div>
           )}
         </div>
       ))}
+      </div>
     </div>
   );
 }
