@@ -15,6 +15,7 @@ export default function CurrentPortfolios(props) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
   const [graphData, setGraphData] = useState(null);
+  // const [currentgraphData, setCurrentGraphData] = useState(null);
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
 
@@ -188,9 +189,19 @@ export default function CurrentPortfolios(props) {
 
   const handleGraphData = (listName) => {
     const selectedPortfolio = currentPortfolios.filter(
-      portfolio => portfolio.list_name === listName
+      (portfolio) => portfolio.list_name === listName
     );
     setGraphData(selectedPortfolio);
+    console.log(graphData);
+
+    // const getCurrentData = async () => {
+    //   const url = import.meta.env.VITE_API_URL;
+    //   const response = await fetch(`${url}/stock-data/${listId}/`);
+    //   if (response.ok) {
+    //     const data = await response.json();
+    //     setCurrentGraphData(data);
+    //   }
+    // }
   };
 
   // Set the initial collapsed state for all lists to true
