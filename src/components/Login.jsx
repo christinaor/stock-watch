@@ -40,7 +40,7 @@ export default function Login() {
 
   const handleLogin = async (e) => {
     const url = import.meta.env.VITE_API_URL;
-    e.preventDefault();
+    // e.preventDefault();
     try {
       const response = await fetch(`${url}/login/`, {
         method: "POST",
