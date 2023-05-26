@@ -70,15 +70,6 @@ function App() {
           <NewPortfolio userId={userId} />
 
           <CurrentPortfolios currentPortfolios={currentPortfolios} />
-
-          <h2>charts:</h2>
-          <div className="line-chart">
-            <LineChart />
-          </div>
-
-          <div className="pie-chart">
-            <PieChart />
-          </div>
         </main>
       </UserContext.Provider>
     </div>
