@@ -1,0 +1,16 @@
+.folio-list {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .list-item {
+    display: flex;
+    flex-direction: column;
+    margin-left: 1em;
+  }
+  
+  .list-header {
+    display: flex;
+    align-items: center;
+  }
+  
