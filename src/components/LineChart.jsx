@@ -52,6 +52,25 @@ function LineChart(props) {
     "December",
   ];
 
+  const [stockData, setStockData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const url = import.meta.env.VITE_API_URL;
+      try {
+        const response = await fetch(`${url}/stock-data-current/${listId}`);
+        const data = await response.json();
+        setStockData(data);
+        console.log(stockData)
+      } catch (error) {
+        console.error('Error fetching stock data:', error);
+      }
+    };
+
+    fetchData();
+  }, [listId]);
+
+
   const data = {
     labels: [labels[graphData[0].investment_date.charAt(6)], labels[4]],
     datasets: graphData.map((stock, i) => {
