@@ -19,6 +19,8 @@ export default function CurrentPortfolios(props) {
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
 
+  console.log(graphData)
+  console.log(currentGraphData)
   // Function to toggle the collapsed state of a list
   const toggleListCollapse = (listName) => {
     setCollapsedLists((prevCollapsedLists) => ({
@@ -161,7 +163,7 @@ export default function CurrentPortfolios(props) {
 
         if (response.ok) {
           const updatedCurrentPortfolios = currentPortfolios.filter(
-            (portfolio) => portfolio.list_id === listId
+            (portfolio) => portfolio.list_id !== listId
           );
 
           setCurrentPortfolios([...updatedCurrentPortfolios]);
@@ -187,13 +189,11 @@ export default function CurrentPortfolios(props) {
     setAllocations([]);
   };
 
-  const handleGraphData = async (listName) => {
+  const handleGraphData = (listName) => {
     const selectedPortfolio = currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
     );
-
     setListId(selectedPortfolio[0].list_id);
-
     setGraphData(selectedPortfolio);
 
     const getCurrentData = async () => {
@@ -203,11 +203,14 @@ export default function CurrentPortfolios(props) {
       );
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         setCurrentGraphData(data);
+      } else {
+        console.log(`Error in fetching currentGraphData`)
       }
     };
 
-    await getCurrentData();
+    getCurrentData();
   };
 
   // Set the initial collapsed state for all lists to true
