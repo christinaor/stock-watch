@@ -31,8 +31,15 @@ export default function PieChart(props) {
       (t) => (totalInvestments / t) * 100
     );
     const totalAllocations = newAllocations.reduce((total, a) => total + a, 0);
-    setCurrentAllocations(newAllocations);
-    console.log(totalAllocations);
+    let roundedAllocations;
+    if (totalAllocations < 100) {
+      let rem = 100 - totalAllocations;
+      roundedAllocations = totalAllocations.map((a) => a + rem / 2);
+    } else {
+      let rem = totalAllocations - 100;
+      roundedAllocations = totalAllocations - rem;
+    }
+    setCurrentAllocations(roundedAllocations);
   }, [currentAllocations]);
 
   const options = {
