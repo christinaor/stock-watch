@@ -24,7 +24,7 @@ export default function PieChart(props) {
     const stockPrices = currentGraphData.map((s) => s.close);
     const stockInvestments = stockPrices.map((p, i) => p * numberOfStocks[i]);
     const totalInvestments = stockInvestments.reduce(
-      (total, acc) => total + acc,
+      (total, currentAmount) => total + currentAmount,
       0
     );
     const newAllocations = stockInvestments.map(
