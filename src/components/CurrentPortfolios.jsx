@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 
+import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
@@ -197,12 +197,12 @@ export default function CurrentPortfolios(props) {
     );
     console.log(selectedPortfolio)
     
-    if (selectedPortfolio.length > 0) {
+   
       const { list_id, stock_name } = selectedPortfolio[0];
       setSymbol(stock_name);
-      setGraphData('graphData',selectedPortfolio);
+      setGraphData(selectedPortfolio);
   
-    }
+   
     console.log('ListName',listName)
     console.log('symbol',symbol)
 
