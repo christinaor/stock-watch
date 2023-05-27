@@ -187,7 +187,7 @@ export default function CurrentPortfolios(props) {
     setAllocations([]);
   };
 
-  const handleGraphData = async (listName) => {
+  const handleGraphData = (listName) => {
     const selectedPortfolio = currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
     );
@@ -207,7 +207,7 @@ export default function CurrentPortfolios(props) {
       }
     };
 
-    await getCurrentData();
+    getCurrentData();
   };
 
   // Set the initial collapsed state for all lists to true
