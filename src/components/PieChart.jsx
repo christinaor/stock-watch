@@ -21,18 +21,27 @@ export default function PieChart(props) {
 
   useEffect(() => {
     const numberOfStocks = graphData.map((s) => s.number_stocks);
-    const stockPrices = graphData.map((s) => s.price_of_stock);
+    const stockPrices = currentGraphData.map((s) => s.close);
     const stockInvestments = stockPrices.map((p, i) => p * numberOfStocks[i]);
     const totalInvestments = stockInvestments.reduce(
-      (total, acc) => total + acc,
+      (total, currentAmount) => total + currentAmount,
       0
     );
     const newAllocations = stockInvestments.map(
       (t) => (totalInvestments / t) * 100
     );
     const totalAllocations = newAllocations.reduce((total, a) => total + a, 0);
-    setCurrentAllocations(newAllocations);
-    console.log(totalAllocations);
+    let roundedAllocations;
+    if (totalAllocations < 100) {
+      let rem = 100 - totalAllocations;
+      roundedAllocations = totalAllocations.map(
+        (a) => a + rem / newAllocations.length
+      );
+    } else {
+      let rem = totalAllocations - 100;
+      roundedAllocations = totalAllocations - rem;
+    }
+    setCurrentAllocations(roundedAllocations);
   }, [currentAllocations]);
 
   const options = {

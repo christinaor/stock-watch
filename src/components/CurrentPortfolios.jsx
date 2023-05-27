@@ -14,11 +14,13 @@ export default function CurrentPortfolios(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
-  const [graphData, setGraphData] = useState(null);
-  const [currentGraphData, setCurrentGraphData] = useState(null);
+  const [graphData, setGraphData] = useState([]);
+  const [currentGraphData, setCurrentGraphData] = useState([]);
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
 
+  console.log(graphData)
+  console.log(currentGraphData)
   // Function to toggle the collapsed state of a list
   const toggleListCollapse = (listName) => {
     setCollapsedLists((prevCollapsedLists) => ({
@@ -161,7 +163,7 @@ export default function CurrentPortfolios(props) {
 
         if (response.ok) {
           const updatedCurrentPortfolios = currentPortfolios.filter(
-            (portfolio) => portfolio.list_id === listId
+            (portfolio) => portfolio.list_id !== listId
           );
 
           setCurrentPortfolios([...updatedCurrentPortfolios]);
@@ -191,16 +193,20 @@ export default function CurrentPortfolios(props) {
     const selectedPortfolio = currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
     );
-    setGraphData(selectedPortfolio);
-
     setListId(selectedPortfolio[0].list_id);
+    setGraphData(selectedPortfolio);
 
     const getCurrentData = async () => {
       const url = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${url}/stock-data-current/${listId}`);
+      const response = await fetch(
+        `${url}/stock-data-current/${selectedPortfolio[0].list_id}`
+      );
       if (response.ok) {
         const data = await response.json();
+        console.log(data)
         setCurrentGraphData(data);
+      } else {
+        console.log(`Error in fetching currentGraphData`)
       }
     };
 
@@ -265,7 +271,12 @@ export default function CurrentPortfolios(props) {
                     {isDeleting && portfolio[0].list_name === listName && (
                       <div>
                         <div>{`Are you sure you want to delete portfolio "${listName}"?`}</div>
-                        <button className="redText" onClick={handleDeletePortfolio}>Yes</button>
+                        <button
+                          className="redText"
+                          onClick={handleDeletePortfolio}
+                        >
+                          Yes
+                        </button>
                         <button onClick={handleCancelDeletePortfolio}>
                           No
                         </button>
@@ -342,7 +353,7 @@ export default function CurrentPortfolios(props) {
         ))}
       </div>
       <section className="charts">
-        {graphData && (
+        {graphData.length > 0 && (
           <>
             <div className="line-chart">
               <LineChart

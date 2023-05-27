@@ -1,5 +1,4 @@
-import { toast } from 'react-toastify';
-import { redirect } from 'react-router-dom';
+import { toast } from "react-toastify";
 
 export default function Logout({ setIsLoggedIn }) {
   const handleLogout = async () => {
@@ -7,30 +6,32 @@ export default function Logout({ setIsLoggedIn }) {
     try {
       // Make a fetch request to the logout route
       const response = await fetch(`${url}/logout/`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
       });
-  
+
       if (response.ok) {
         // Remove the user from local storage
-        localStorage.removeItem('user');
+        localStorage.removeItem("user");
         setIsLoggedIn(false);
 
-        toast.success('Logged out successfully');
+        toast.success("Logged out successfully");
         // Add any additional logic or redirection after logout if needed
       } else {
         // Handle the logout failure case
-        toast.error('Logout failed');
+        toast.error("Logout failed");
       }
     } catch (error) {
       // Handle the logout error case
-      toast.error('Logout error:', error.message);
+      toast.error("Logout error:", error.message);
     }
   };
 
   return (
-    <button onClick={handleLogout} className="hero__text">Logout</button>
-  )
+    <button onClick={handleLogout} className="hero__text">
+      Logout
+    </button>
+  );
 }
