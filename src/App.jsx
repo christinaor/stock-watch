@@ -57,7 +57,7 @@ function App() {
           (stock) => stock.user_stock === userId
         );
         setCurrentPortfolios(userPortfolios);
-        console.log(data);
+        console.log('fetch portfolios',data);
       };
 
       fetchData();
