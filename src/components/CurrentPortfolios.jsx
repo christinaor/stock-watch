@@ -14,8 +14,8 @@ export default function CurrentPortfolios(props) {
   const [isEditing, setIsEditing] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [portfolio, setPortfolio] = useState([]);
-  const [graphData, setGraphData] = useState(null);
-  const [currentGraphData, setCurrentGraphData] = useState(null);
+  const [graphData, setGraphData] = useState([]);
+  const [currentGraphData, setCurrentGraphData] = useState([]);
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
 
@@ -187,24 +187,27 @@ export default function CurrentPortfolios(props) {
     setAllocations([]);
   };
 
-  const handleGraphData = (listName) => {
+  const handleGraphData = async (listName) => {
     const selectedPortfolio = currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
     );
-    setGraphData(selectedPortfolio);
 
     setListId(selectedPortfolio[0].list_id);
 
+    setGraphData(selectedPortfolio);
+
     const getCurrentData = async () => {
       const url = import.meta.env.VITE_API_URL;
-      const response = await fetch(`${url}/stock-data-current/${listId}`);
+      const response = await fetch(
+        `${url}/stock-data-current/${selectedPortfolio[0].list_id}`
+      );
       if (response.ok) {
         const data = await response.json();
         setCurrentGraphData(data);
       }
     };
 
-    getCurrentData();
+    await getCurrentData();
   };
 
   // Set the initial collapsed state for all lists to true
@@ -265,7 +268,12 @@ export default function CurrentPortfolios(props) {
                     {isDeleting && portfolio[0].list_name === listName && (
                       <div>
                         <div>{`Are you sure you want to delete portfolio "${listName}"?`}</div>
-                        <button className="redText" onClick={handleDeletePortfolio}>Yes</button>
+                        <button
+                          className="redText"
+                          onClick={handleDeletePortfolio}
+                        >
+                          Yes
+                        </button>
                         <button onClick={handleCancelDeletePortfolio}>
                           No
                         </button>
@@ -342,7 +350,7 @@ export default function CurrentPortfolios(props) {
         ))}
       </div>
       <section className="charts">
-        {graphData && (
+        {graphData.length > 0 && (
           <>
             <div className="line-chart">
               <LineChart
