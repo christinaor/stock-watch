@@ -1,4 +1,5 @@
 import { toast } from 'react-toastify';
+import { redirect } from 'react-router-dom';
 
 export default function Logout({ setIsLoggedIn }) {
   const handleLogout = async () => {
