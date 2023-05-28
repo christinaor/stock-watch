@@ -60,10 +60,13 @@ function LineChart(props) {
       return {
         label: stock.stock_name,
         data: [stock.price_of_stock, currentGraphData[i].close],
-        borderColor: ["rgb(255, 99, 132)", "rgb(53, 162, 235)"].slice(0, i + 1),
+        borderColor: ["rgb(255, 99, 132)", "rgb(53, 162, 235)","rgba(170, 255, 0, 1)","rgb(251, 255, 0, 1)","rgb(255, 136, 0);"].slice(0, i + 1),
         backgroundColor: [
           "rgba(255, 99, 132, 0.5)",
           "rgba(53, 162, 235, 0.5)",
+          "rgba(170, 255, 0, 1)",
+          "rgb(251, 255, 0, 1)",
+          "rgb(255, 136, 0);",
         ].slice(0, i + 1),
       };
     }),
