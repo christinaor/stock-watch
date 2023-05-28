@@ -192,9 +192,10 @@ export default function CurrentPortfolios(props) {
 
   const handleGraphData = (listName) => {
     console.log(listName)
-    const selectedPortfolio = currentPortfolios.filter(
+    
+    const selectedPortfolio = listName ?currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
-    );
+    ):''
     console.log(selectedPortfolio)
     
    
@@ -212,17 +213,19 @@ export default function CurrentPortfolios(props) {
       }
   };
 
-    const getCurrentData = async () => {
-      const symbols = ["AAPL", "GOOGL", "MSFT"]
+  const getCurrentData = async () => {
+    if (graphData.length > 0) {
+      const symbols = graphData.map((item) => item.stock_name);
       const symbolParams = symbols.join(',');
       const url = import.meta.env.VITE_API_URL;
-      const response = await fetch(url +`/stock-close-value/?symbols=${symbolParams}`);
+      const response = await fetch(url + `/stock-close-value/?symbols=${symbolParams}`);
       if (response.ok) {
         const data = await response.json();
         setCurrentGraphData(data);
-        graphData?console.log('currentGraphData',currentGraphData):''
+        graphData ? console.log('currentGraphData', currentGraphData) : '';
       }
-    };
+    }
+  };
 
   // Set the initial collapsed state for all lists to true
   useState(() => {
