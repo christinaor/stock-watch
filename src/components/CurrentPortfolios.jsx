@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 
+import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
@@ -19,6 +19,7 @@ export default function CurrentPortfolios(props) {
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
   const [symbol,setSymbol] =useState([])
+  const [symbols,setSymbols] =useState([])
 
   console.log(graphData)
   console.log(currentGraphData)
@@ -192,17 +193,18 @@ export default function CurrentPortfolios(props) {
 
   const handleGraphData = (listName) => {
     console.log(listName)
-    const selectedPortfolio = currentPortfolios.filter(
+    
+    const selectedPortfolio = listName ?currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
-    );
+    ):''
     console.log(selectedPortfolio)
     
-    if (selectedPortfolio.length > 0) {
+   
       const { list_id, stock_name } = selectedPortfolio[0];
       setSymbol(stock_name);
-      setGraphData('graphData',selectedPortfolio);
+      setGraphData(selectedPortfolio);
   
-    }
+   
     console.log('ListName',listName)
     console.log('symbol',symbol)
 
@@ -212,17 +214,19 @@ export default function CurrentPortfolios(props) {
       }
   };
 
-    const getCurrentData = async () => {
-      const symbols = ["AAPL", "GOOGL", "MSFT"]
+  const getCurrentData = async () => {
+    if (graphData.length > 0) {
+      setSymbols(graphData.map((item) => item.stock_name))
       const symbolParams = symbols.join(',');
       const url = import.meta.env.VITE_API_URL;
-      const response = await fetch(url +`/stock-close-value/?symbols=${symbolParams}`);
+      const response = await fetch(url + `/stock-close-value/?symbols=${symbolParams}`);
       if (response.ok) {
         const data = await response.json();
         setCurrentGraphData(data);
-        graphData?console.log('currentGraphData',currentGraphData):''
+        graphData ? console.log('currentGraphData', currentGraphData) : '';
       }
-    };
+    }
+  };
 
   // Set the initial collapsed state for all lists to true
   useState(() => {

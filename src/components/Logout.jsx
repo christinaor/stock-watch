@@ -1,4 +1,5 @@
 import { toast } from "react-toastify";
+import React from 'react'
 
 export default function Logout({ setIsLoggedIn }) {
   const handleLogout = async () => {
