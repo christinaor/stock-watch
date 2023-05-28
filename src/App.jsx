@@ -11,6 +11,7 @@ import NewPortfolio from "./components/NewPortfolio";
 import CurrentPortfolios from "./components/CurrentPortfolios";
 import Logout from "./components/Logout";
 
+
 function App() {
   /**
    * New portfolio is ultimately what is submitted.
