@@ -19,6 +19,7 @@ export default function CurrentPortfolios(props) {
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
   const [symbol,setSymbol] =useState([])
+  const [symbols,setSymbols] =useState([])
 
   console.log(graphData)
   console.log(currentGraphData)
@@ -215,7 +216,7 @@ export default function CurrentPortfolios(props) {
 
   const getCurrentData = async () => {
     if (graphData.length > 0) {
-      const symbols = graphData.map((item) => item.stock_name);
+      setSymbols(graphData.map((item) => item.stock_name))
       const symbolParams = symbols.join(',');
       const url = import.meta.env.VITE_API_URL;
       const response = await fetch(url + `/stock-close-value/?symbols=${symbolParams}`);
