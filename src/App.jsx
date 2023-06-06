@@ -1,4 +1,5 @@
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect } from "react";
+import React, { useState } from 'react'
 import { UserContext } from "./contexts/UserContext";
 import Header from "./components/Header";
 import Login from "./components/Login";
@@ -9,6 +10,7 @@ import Welcome from "./components/Welcome";
 import NewPortfolio from "./components/NewPortfolio";
 import CurrentPortfolios from "./components/CurrentPortfolios";
 import Logout from "./components/Logout";
+
 
 function App() {
   /**
@@ -57,7 +59,7 @@ function App() {
           (stock) => stock.user_stock === userId
         );
         setCurrentPortfolios(userPortfolios);
-        console.log(data);
+        console.log('fetch portfolios',data);
       };
 
       fetchData();

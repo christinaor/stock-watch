@@ -1,5 +1,5 @@
-import React, { useState } from "react";
 
+import React, { useState } from 'react'
 import { toast } from "react-toastify";
 import LineChart from "./LineChart";
 import PieChart from "./PieChart";
@@ -18,6 +18,8 @@ export default function CurrentPortfolios(props) {
   const [currentGraphData, setCurrentGraphData] = useState([]);
   const [allocations, setAllocations] = useState([]);
   const [listId, setListId] = useState(null);
+  const [symbol,setSymbol] =useState([])
+  const [symbols,setSymbols] =useState([])
 
   console.log(graphData)
   console.log(currentGraphData)
@@ -190,27 +192,40 @@ export default function CurrentPortfolios(props) {
   };
 
   const handleGraphData = (listName) => {
-    const selectedPortfolio = currentPortfolios.filter(
+    console.log(listName)
+    
+    const selectedPortfolio = listName ?currentPortfolios.filter(
       (portfolio) => portfolio.list_name === listName
-    );
-    setListId(selectedPortfolio[0].list_id);
-    setGraphData(selectedPortfolio);
+    ):''
+    console.log(selectedPortfolio)
+    
+   
+      const { list_id, stock_name } = selectedPortfolio[0];
+      setSymbol(stock_name);
+      setGraphData(selectedPortfolio);
+  
+   
+    console.log('ListName',listName)
+    console.log('symbol',symbol)
 
-    const getCurrentData = async () => {
+      console.log(symbol)
+      if (symbol) {
+        getCurrentData();
+      }
+  };
+
+  const getCurrentData = async () => {
+    if (graphData.length > 0) {
+      setSymbols(graphData.map((item) => item.stock_name))
+      const symbolParams = symbols.join(',');
       const url = import.meta.env.VITE_API_URL;
-      const response = await fetch(
-        `${url}/stock-data-current/${selectedPortfolio[0].list_id}`
-      );
+      const response = await fetch(url + `/stock-close-value/?symbols=${symbolParams}`);
       if (response.ok) {
         const data = await response.json();
-        console.log(data)
         setCurrentGraphData(data);
-      } else {
-        console.log(`Error in fetching currentGraphData`)
+        graphData ? console.log('currentGraphData', currentGraphData) : '';
       }
-    };
-
-    getCurrentData();
+    }
   };
 
   // Set the initial collapsed state for all lists to true
@@ -312,7 +327,6 @@ export default function CurrentPortfolios(props) {
                             />
                           </div>
                         )}
-
                         {portfolio[0].list_name !== listName && (
                           <div key={`stock-${index}`}>
                             <div>
@@ -353,7 +367,7 @@ export default function CurrentPortfolios(props) {
         ))}
       </div>
       <section className="charts">
-        {graphData.length > 0 && (
+        {graphData.length > 0 && currentGraphData.length > 0 && (
           <>
             <div className="line-chart">
               <LineChart
@@ -363,10 +377,10 @@ export default function CurrentPortfolios(props) {
             </div>
 
             <div className="pie-chart">
-              <PieChart
+              {/* <PieChart
                 graphData={graphData}
                 currentGraphData={currentGraphData}
-              />
+              /> */}
             </div>
           </>
         )}
