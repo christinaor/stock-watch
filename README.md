@@ -1,8 +1,8 @@
-# stock-watch
+# Stock Watch
 
 Stock Watch is financial web application where users can check the worth of stocks in their assets portfolio over time. This was developed for the LightHall SESL Season 2 Competition.
 
-The backend repo for the competition can be found here: https://github.com/AmJann/stock_calculator_django
+The backend repo can be found here: https://github.com/AmJann/stock_calculator_django
 
 ## Development setup
 
