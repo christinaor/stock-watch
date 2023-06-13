@@ -327,7 +327,6 @@ export default function CurrentPortfolios(props) {
                             />
                           </div>
                         )}
-
                         {portfolio[0].list_name !== listName && (
                           <div key={`stock-${index}`}>
                             <div>
